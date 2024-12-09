@@ -2,7 +2,7 @@ import streamlit as st
 import locale
 
 # Definir o locale para garantir a formatação em português
-locale.setlocale(locale.LC_ALL, 'pt_BR.UTF-8')
+# locale.setlocale(locale.LC_ALL, 'pt_BR.UTF-8')
 
 # CSS global
 st.markdown("""
