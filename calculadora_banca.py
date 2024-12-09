@@ -1,9 +1,6 @@
 import streamlit as st
 import locale
 
-# Definir o locale para garantir a formatação em português
-# locale.setlocale(locale.LC_ALL, 'pt_BR.UTF-8')
-
 # CSS global
 st.markdown("""
     <style>
@@ -45,19 +42,28 @@ st.markdown("""
 # Inicializar o estado da aplicação
 if 'calculo_feito' not in st.session_state:
     st.session_state.calculo_feito = False
+if 'reset' not in st.session_state:
+    st.session_state.reset = False
 
-# Resetar valores ao apagar agenda
+# Função para resetar a agenda e os valores
 def resetar_agenda():
     st.session_state.banca_inicial = 0.0
     st.session_state.meta_desejada = 0.0
     st.session_state.dias_para_meta = 1
     st.session_state.calculo_feito = False
+    st.session_state.reset = True
     st.experimental_rerun()
 
-# Entrada dos dados
-banca_inicial = st.number_input("**Banca Inicial (R$):**", min_value=0.0, step=1.0, format="%.2f", key="banca_inicial")
-meta_desejada = st.number_input("**Meta Total (R$):**", min_value=0.0, step=1.0, format="%.2f", key="meta_desejada")
-dias_para_meta = st.number_input("**Tempo para atingir a meta (dias):**", min_value=1, step=1, key="dias_para_meta")
+# Entrada dos dados com controle de valores
+if st.session_state.reset:
+    banca_inicial = st.number_input("**Banca Inicial (R$):**", min_value=0.0, step=1.0, format="%.2f", key="banca_inicial", value=0.0)
+    meta_desejada = st.number_input("**Meta Total (R$):**", min_value=0.0, step=1.0, format="%.2f", key="meta_desejada", value=0.0)
+    dias_para_meta = st.number_input("**Tempo para atingir a meta (dias):**", min_value=1, step=1, key="dias_para_meta", value=1)
+    st.session_state.reset = False
+else:
+    banca_inicial = st.number_input("**Banca Inicial (R$):**", min_value=0.0, step=1.0, format="%.2f", key="banca_inicial")
+    meta_desejada = st.number_input("**Meta Total (R$):**", min_value=0.0, step=1.0, format="%.2f", key="meta_desejada")
+    dias_para_meta = st.number_input("**Tempo para atingir a meta (dias):**", min_value=1, step=1, key="dias_para_meta")
 
 # Função para formatar os valores
 def formatar_em_cru(valor):
