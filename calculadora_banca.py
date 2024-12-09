@@ -42,9 +42,17 @@ st.markdown("""
     <h1>Calculadora de Metas - Trader Pedro</h1>
 """, unsafe_allow_html=True)
 
-# Reset da página
+# Inicializar o estado da aplicação
 if 'calculo_feito' not in st.session_state:
     st.session_state.calculo_feito = False
+
+# Resetar valores ao apagar agenda
+def resetar_agenda():
+    st.session_state.banca_inicial = 0.0
+    st.session_state.meta_desejada = 0.0
+    st.session_state.dias_para_meta = 1
+    st.session_state.calculo_feito = False
+    st.experimental_rerun()
 
 # Entrada dos dados
 banca_inicial = st.number_input("**Banca Inicial (R$):**", min_value=0.0, step=1.0, format="%.2f", key="banca_inicial")
@@ -73,8 +81,7 @@ if st.button("Calcular Agenda"):
         # Botão "Apagar Agenda" aparece aqui
         if st.session_state.calculo_feito:
             if st.button("Apagar Agenda"):
-                st.session_state.calculo_feito = False
-                st.experimental_rerun()
+                resetar_agenda()
 
         # Mostrar agenda
         st.success("Aqui está sua agenda de gerenciamento:")
