@@ -1,0 +1,37 @@
+// This Pine Script™ code is subject to the terms of the Mozilla Public License 2.0 at https://mozilla.org/MPL/2.0/
+// © traderpedrobr
+
+//@version=5
+indicator("Sinais de Compra e Venda com Tendência", overlay=true)
+
+// Configuração das médias móveis
+sma5 = ta.sma(close, 5)
+sma13 = ta.sma(close, 13)
+sma200 = ta.sma(close, 200)  // Média móvel de longo prazo para identificar a tendência
+
+// Cores e opacidade das médias móveis
+plot(sma5, title="SMA 5", color=color.new(color.blue, 80), linewidth=2)
+plot(sma13, title="SMA 13", color=color.new(color.red, 80), linewidth=2)
+plot(sma200, title="SMA 200", color=color.new(color.green, 80), linewidth=2)
+
+// Critério para distanciamento das médias móveis (evitando lateralização)
+distancia_minima = 0.0005  // Diferença mínima para evitar sinais com médias lateralizadas
+distancia_atual = math.abs(sma5 - sma13)
+
+// Verificando a tendência (usando a SMA 200)
+em_tendencia_alta = sma5 > sma200
+em_tendencia_baixa = sma5 < sma200
+
+// Sinais de Compra e Venda
+sinal_compra = ta.crossover(sma5, sma13) and distancia_atual > distancia_minima
+sinal_venda = ta.crossunder(sma5, sma13) and distancia_atual > distancia_minima
+
+// Condição para sinais fortes (a favor da tendência)
+sinal_compra_forte = sinal_compra and em_tendencia_alta
+sinal_venda_forte = sinal_venda and em_tendencia_baixa
+
+// Exibindo os sinais no gráfico usando 'plotshape'
+plotshape(sinal_compra_forte, title="Compra Forte", location=location.belowbar, color=#00ff08, style=shape.labelup, text="↑ Forte (até 2 gales)", textcolor=#000000)
+plotshape(sinal_compra and not sinal_compra_forte, title="Compra", location=location.belowbar, color=#000000, style=shape.labelup, text="↑ (até 2 gales)", textcolor=#00ff00)
+plotshape(sinal_venda_forte, title="Venda Forte", location=location.abovebar, color=#ff0000, style=shape.labeldown, text="↓ Forte (até 2 gales)", textcolor=#000000)
+plotshape(sinal_venda and not sinal_venda_forte, title="Venda", location=location.abovebar, color=#000000, style=shape.labeldown, text="↓ (até 2 gales)", textcolor=#ff0000)
