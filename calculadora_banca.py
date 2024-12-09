@@ -42,6 +42,15 @@ st.markdown("""
     <h1>Calculadora de Metas - Trader Pedro</h1>
 """, unsafe_allow_html=True)
 
+# Reset da página
+if 'reset' not in st.session_state:
+    st.session_state.reset = False
+
+# Botão de reset
+if st.button("Apagar Agenda"):
+    st.session_state.reset = True
+    st.experimental_rerun()
+
 # Entrada dos dados com os rótulos embutidos nos campos
 banca_inicial = st.number_input("**Banca Inicial (R$):**", min_value=0.0, step=1.0, format="%.2f", key="banca_inicial")
 meta_desejada = st.number_input("**Meta Total (R$):**", min_value=0.0, step=1.0, format="%.2f", key="meta_desejada")
