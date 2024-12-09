@@ -43,15 +43,10 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # Reset da página
-if 'reset' not in st.session_state:
-    st.session_state.reset = False
+if 'calculo_feito' not in st.session_state:
+    st.session_state.calculo_feito = False
 
-# Botão de reset
-if st.button("Apagar Agenda"):
-    st.session_state.reset = True
-    st.experimental_rerun()
-
-# Entrada dos dados com os rótulos embutidos nos campos
+# Entrada dos dados
 banca_inicial = st.number_input("**Banca Inicial (R$):**", min_value=0.0, step=1.0, format="%.2f", key="banca_inicial")
 meta_desejada = st.number_input("**Meta Total (R$):**", min_value=0.0, step=1.0, format="%.2f", key="meta_desejada")
 dias_para_meta = st.number_input("**Tempo para atingir a meta (dias):**", min_value=1, step=1, key="dias_para_meta")
@@ -63,6 +58,7 @@ def formatar_em_cru(valor):
 # Botão de cálculo
 if st.button("Calcular Agenda"):
     if banca_inicial > 0 and meta_desejada > 0 and dias_para_meta > 0:
+        st.session_state.calculo_feito = True
         porcentagem_diaria = (meta_desejada / banca_inicial) ** (1 / dias_para_meta) - 1
         stop_loss = banca_inicial * 0.20
 
@@ -74,6 +70,13 @@ if st.button("Calcular Agenda"):
             necessidade_dia = round(banca_atual * porcentagem_diaria, 2)
             banca_evolucao.append(f"**Dia {dia}:** {formatar_em_cru(banca_atual)} - Necessário: {formatar_em_cru(necessidade_dia)}")
 
+        # Botão "Apagar Agenda" aparece aqui
+        if st.session_state.calculo_feito:
+            if st.button("Apagar Agenda"):
+                st.session_state.calculo_feito = False
+                st.experimental_rerun()
+
+        # Mostrar agenda
         st.success("Aqui está sua agenda de gerenciamento:")
         st.write(f"**Porcentagem Diária Necessária:** {porcentagem_diaria * 100:.2f}%")
         st.write(f"**Stop Loss Diário:** {formatar_em_cru(stop_loss)}")
