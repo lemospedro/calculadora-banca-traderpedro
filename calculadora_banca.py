@@ -20,7 +20,7 @@ st.markdown("""
             text-align: center;
             color: #ff4b4b;
             margin-bottom: 50px;
-            animation: bounce 2s ease infinite;  /* Animação do título */
+            animation: fadeIn 2s ease-out;  /* Nova animação */
         }
         .stApp {
             background-color: #0d1216;
@@ -33,23 +33,26 @@ st.markdown("""
         * {
             font-family: 'Helvetica', sans-serif;
         }
-        
-        /* Animação de "bouncing" para o título */
-        @keyframes bounce {
-            0%, 100% {
-                transform: translateY(0);
+
+        /* Nova animação do título */
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(-20px);
             }
-            50% {
-                transform: translateY(-10px);
+            100% {
+                opacity: 1;
+                transform: translateY(0);
             }
         }
 
-        /* Efeito nos botões ao passar o mouse */
+        /* Efeito nos botões com aumento e sombra */
         .stButton>button {
             transition: all 0.3s ease;
         }
         .stButton>button:hover {
-            transform: scale(1.1); /* Aumenta o tamanho do botão */
+            transform: scale(1.05);  /* Aumenta o botão */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Adiciona sombra */
             background-color: #ff4b4b; /* Muda a cor de fundo */
             color: white; /* Muda a cor do texto */
         }
@@ -185,7 +188,7 @@ with col2:
 
 with col1:
     st.markdown(
-        '<a href="https://example.com/analise-abundante" target="_blank" '
+        '<a href="https://drive.google.com/file/d/1H_VNOgYSRNnsGIEj_g2B3xwQxSa-Zu4d/view?usp=sharing" target="_blank" '
         'style="background-color: #0d1216; color: #ffffff; font-weight: bold; border: 2px solid #00b140; '
         'border-radius: 5px; padding: 10px 15px; font-size: 16px; text-decoration: none; text-align: center; '
         'display: inline-block;" class="stButton" id="btn-analise-abundante">Abrir Análise Abundante</a>',
