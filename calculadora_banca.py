@@ -121,6 +121,11 @@ else:
                 color: #000000 !important;  /* Cor preta para mensagens de erro no modo claro */
             }
 
+            /* Corrigir texto de erro */
+            .stError div {
+                color: #000000 !important;  /* Garantir que o texto do erro também fique visível */
+            }
+
             /* Aplicando Helvetica em todo o texto */
             * {
                 font-family: 'Helvetica', sans-serif;
