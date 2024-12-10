@@ -59,6 +59,11 @@ if theme == "Escuro":
                 background-color: #e63e3e;
             }
 
+            /* Mensagens de erro */
+            .stError {
+                color: #ffffff !important;
+            }
+
             /* Aplicando Helvetica em todo o texto */
             * {
                 font-family: 'Helvetica', sans-serif;
@@ -109,6 +114,11 @@ else:
 
             .stButton>button:hover {
                 background-color: #e0e0e0;
+            }
+
+            /* Mensagens de erro */
+            .stError {
+                color: #000000 !important;  /* Cor preta para mensagens de erro no modo claro */
             }
 
             /* Aplicando Helvetica em todo o texto */
