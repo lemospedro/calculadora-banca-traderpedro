@@ -83,14 +83,14 @@ if st.button("Calcular Agenda"):
         # Geração do gráfico
         plt.figure(facecolor="#0d1216")
         plt.plot(range(dias_para_meta + 1), bancas, marker='o', linestyle='-', color='#ff4b4b')  # Linha avermelhada
-        plt.title("Evolução da Banca", color="black", fontsize=14, fontweight="bold")  # Título em preto
-        plt.xlabel("Dias", color="black", fontweight="bold")  # Texto eixo X em preto
-        plt.ylabel("Banca (R$)", color="black", fontweight="bold")  # Texto eixo Y em preto
-        plt.grid(True)
+        plt.title("Evolução da Banca", color="white", fontsize=14, fontweight="bold")  # Título em branco
+        plt.xlabel("Dias", color="white", fontweight="bold")  # Texto eixo X em branco
+        plt.ylabel("Banca (R$)", color="white", fontweight="bold")  # Texto eixo Y em branco
+        plt.grid(True, color="white")
         plt.gca().set_facecolor('#0d1216')
-        plt.tick_params(colors='black')  # Ticks em preto
-        plt.gca().spines['bottom'].set_color('black')  # Eixo inferior em preto
-        plt.gca().spines['left'].set_color('black')  # Eixo esquerdo em preto
+        plt.tick_params(colors='white')  # Ticks em branco
+        plt.gca().spines['bottom'].set_color('white')  # Eixo inferior em branco
+        plt.gca().spines['left'].set_color('white')  # Eixo esquerdo em branco
         grafico_buffer = BytesIO()
         plt.savefig(grafico_buffer, format="png", transparent=True)
         st.pyplot(plt)
@@ -123,11 +123,11 @@ def exportar_pdf():
     for linha in banca_evolucao:
         elementos.append(Paragraph(linha, style_normal))
 
-    # Adicionar o gráfico
+    # Adicionar o gráfico como imagem
     if grafico_gerado:
         grafico_buffer.seek(0)
         elementos.append(Spacer(1, 12))
-        elementos.append(Image(grafico_buffer))
+        elementos.append(Image(grafico_buffer, width=500, height=300))
 
     # Construir o PDF
     pdf.build(elementos, onFirstPage=lambda c, d: c.setFillColor(colors.black), onLaterPages=lambda c, d: c.setFillColor(colors.black))
