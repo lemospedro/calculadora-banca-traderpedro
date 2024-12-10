@@ -77,13 +77,33 @@ if st.button("Calcular Agenda"):
             st.write(linha)
 
         # **Gerar o Gráfico de Evolução da Banca**
-        fig, ax = plt.subplots()
-        ax.plot(range(dias_para_meta + 1), valores_banca, marker='o', linestyle='-', color='#ff4b4b')
-        ax.set_title("Evolução da Banca ao Longo dos Dias")
-        ax.set_xlabel("Dias")
-        ax.set_ylabel("Banca (R$)")
-        ax.grid(True)
-        st.pyplot(fig)  # Exibe o gráfico no Streamlit
+fig, ax = plt.subplots()
+
+# Definir a cor do fundo
+fig.patch.set_facecolor('#0d1216')  # Fundo do gráfico principal
+ax.set_facecolor('#0d1216')         # Fundo da área do gráfico
+
+# Configurar a linha e os pontos
+ax.plot(range(dias_para_meta + 1), valores_banca, marker='o', linestyle='-', color='#ff4b4b', label="Banca (R$)")
+
+# Personalizar os textos (cor branca)
+ax.set_title("Evolução da Banca ao Longo dos Dias", color='#FFFFFF', fontsize=14, fontweight='bold')
+ax.set_xlabel("Dias", color='#FFFFFF', fontsize=12)
+ax.set_ylabel("Banca (R$)", color='#FFFFFF', fontsize=12)
+
+# Personalizar os eixos
+ax.tick_params(axis='x', colors='#FFFFFF')  # Cor dos números do eixo X
+ax.tick_params(axis='y', colors='#FFFFFF')  # Cor dos números do eixo Y
+
+# Adicionar uma grade suave e colorida
+ax.grid(color='#444444', linestyle='--', linewidth=0.5)
+
+# Adicionar a legenda
+ax.legend(facecolor='#0d1216', edgecolor='None', labelcolor='white')
+
+# Exibir o gráfico no Streamlit
+st.pyplot(fig)
+
 
     else:
         st.error("Por favor, insira valores válidos para todos os campos!")
