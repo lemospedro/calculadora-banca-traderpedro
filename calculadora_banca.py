@@ -59,17 +59,16 @@ if st.button("Calcular Agenda"):
         stop_loss = banca_inicial * 0.20
 
         banca_atual = banca_inicial
+        valores_banca = [banca_inicial]
         banca_evolucao = []
-        valores_banca = [banca_inicial]  # Para armazenar os valores da banca
 
         for dia in range(1, dias_para_meta + 1):
             ganho_diario = banca_atual * porcentagem_diaria
             banca_atual += ganho_diario
             necessidade_dia = round(banca_atual * porcentagem_diaria, 2)
             banca_evolucao.append(f"**Dia {dia}:** {formatar_em_cru(banca_atual)} - Necessário: {formatar_em_cru(necessidade_dia)}")
-            valores_banca.append(banca_atual)  # Salva o valor atualizado da banca
+            valores_banca.append(banca_atual)
 
-        # Mostrar resultados
         st.success("Aqui está sua agenda de gerenciamento:")
         st.write(f"**Porcentagem Diária Necessária:** {porcentagem_diaria * 100:.2f}%")
         st.write(f"**Stop Loss Diário:** {formatar_em_cru(stop_loss)}")
@@ -77,33 +76,32 @@ if st.button("Calcular Agenda"):
             st.write(linha)
 
         # **Gerar o Gráfico de Evolução da Banca**
-fig, ax = plt.subplots()
+        fig, ax = plt.subplots()
 
-# Definir a cor do fundo
-fig.patch.set_facecolor('#0d1216')  # Fundo do gráfico principal
-ax.set_facecolor('#0d1216')         # Fundo da área do gráfico
+        # Definir a cor do fundo
+        fig.patch.set_facecolor('#0d1216')  # Fundo do gráfico principal
+        ax.set_facecolor('#0d1216')         # Fundo da área do gráfico
 
-# Configurar a linha e os pontos
-ax.plot(range(dias_para_meta + 1), valores_banca, marker='o', linestyle='-', color='#ff4b4b', label="Banca (R$)")
+        # Configurar a linha e os pontos
+        ax.plot(range(dias_para_meta + 1), valores_banca, marker='o', linestyle='-', color='#ff4b4b', label="Banca (R$)")
 
-# Personalizar os textos (cor branca)
-ax.set_title("Evolução da Banca ao Longo dos Dias", color='#FFFFFF', fontsize=14, fontweight='bold')
-ax.set_xlabel("Dias", color='#FFFFFF', fontsize=12)
-ax.set_ylabel("Banca (R$)", color='#FFFFFF', fontsize=12)
+        # Personalizar os textos (cor branca)
+        ax.set_title("Evolução da Banca ao Longo dos Dias", color='#FFFFFF', fontsize=14, fontweight='bold')
+        ax.set_xlabel("Dias", color='#FFFFFF', fontsize=12)
+        ax.set_ylabel("Banca (R$)", color='#FFFFFF', fontsize=12)
 
-# Personalizar os eixos
-ax.tick_params(axis='x', colors='#FFFFFF')  # Cor dos números do eixo X
-ax.tick_params(axis='y', colors='#FFFFFF')  # Cor dos números do eixo Y
+        # Personalizar os eixos
+        ax.tick_params(axis='x', colors='#FFFFFF')  # Cor dos números do eixo X
+        ax.tick_params(axis='y', colors='#FFFFFF')  # Cor dos números do eixo Y
 
-# Adicionar uma grade suave e colorida
-ax.grid(color='#444444', linestyle='--', linewidth=0.5)
+        # Adicionar uma grade suave e colorida
+        ax.grid(color='#444444', linestyle='--', linewidth=0.5)
 
-# Adicionar a legenda
-ax.legend(facecolor='#0d1216', edgecolor='None', labelcolor='white')
+        # Adicionar a legenda
+        ax.legend(facecolor='#0d1216', edgecolor='None', labelcolor='white')
 
-# Exibir o gráfico no Streamlit
-st.pyplot(fig)
-
+        # Exibir o gráfico no Streamlit
+        st.pyplot(fig)
 
     else:
         st.error("Por favor, insira valores válidos para todos os campos!")
