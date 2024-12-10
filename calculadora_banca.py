@@ -20,7 +20,7 @@ st.markdown("""
             text-align: center;
             color: #ff4b4b;
             margin-bottom: 50px;
-            animation: fadeIn 2s ease-out;
+            animation: fadeIn 2s ease-out;  /* Nova animação */
         }
         .stApp {
             background-color: #0d1216;
@@ -34,6 +34,7 @@ st.markdown("""
             font-family: 'Helvetica', sans-serif;
         }
 
+        /* Nova animação do título */
         @keyframes fadeIn {
             0% {
                 opacity: 0;
@@ -45,55 +46,57 @@ st.markdown("""
             }
         }
 
+        /* Efeito nos botões com mudança de cor de fundo e borda */
         .stButton>button {
             transition: all 0.3s ease;
         }
         .stButton>button:hover {
-            background-color: #ff4b4b;
-            color: #ffffff;
-            border: 2px solid #ffffff;
+            background-color: #ff4b4b;  /* Altera a cor de fundo para vermelho */
+            color: #ffffff;  /* Muda a cor do texto para branco */
+            border: 2px solid #ffffff; /* Borda branca */
         }
 
+        /* Botões personalizados */
         .stButton>button#btn-analise-abundante {
             background-color: #0d1216;
             color: #ffffff;
-            border: 2px solid #00b140;
+            border: 2px solid #00b140; /* Borda verde */
             font-weight: bold;
         }
         .stButton>button#btn-analise-abundante:hover {
-            background-color: #00b140;
-            color: #ffffff;
-            border: 2px solid #00b140;
+            background-color: #00b140; /* Altera a cor de fundo para verde */
+            color: #ffffff; /* Muda a cor do texto para branco */
+            border: 2px solid #00b140; /* Borda verde */
         }
 
         .stButton>button#btn-create-polarium {
             background-color: #0d1216;
             color: #ffffff;
-            border: 2px solid #ff4b4b;
+            border: 2px solid #ff4b4b; /* Borda vermelha */
             font-weight: bold;
         }
         .stButton>button#btn-create-polarium:hover {
-            background-color: #ff4b4b;
-            color: #ffffff;
-            border: 2px solid #ffffff;
+            background-color: #ff4b4b; /* Altera a cor de fundo para vermelho */
+            color: #ffffff; /* Muda a cor do texto para branco */
+            border: 2px solid #ffffff; /* Borda branca */
         }
 
         .stButton>button#btn-tradingview {
             background-color: #0d1216;
             color: #ffffff;
-            border: 2px solid #ff4b4b;
+            border: 2px solid #ff4b4b; /* Borda vermelha */
             font-weight: bold;
         }
         .stButton>button#btn-tradingview:hover {
-            background-color: #ff4b4b;
-            color: #ffffff;
-            border: 2px solid #ffffff;
+            background-color: #ff4b4b; /* Altera a cor de fundo para vermelho */
+            color: #ffffff; /* Muda a cor do texto para branco */
+            border: 2px solid #ffffff; /* Borda branca */
         }
 
     </style>
 """, unsafe_allow_html=True)
 
-# Título principal
+# Título principal com fonte Bebas Neue
 st.markdown("""
     <h1>Calculadora de Metas - Trader Pedro</h1>
 """, unsafe_allow_html=True)
@@ -116,7 +119,7 @@ if st.button("Calcular Agenda"):
         stop_loss = banca_inicial * 0.20
 
         banca_atual = banca_inicial
-        bancas = [banca_atual]
+        bancas = [banca_atual]  # Lista para o gráfico
         for dia in range(1, dias_para_meta + 1):
             ganho_diario = banca_atual * porcentagem_diaria
             banca_atual += ganho_diario
@@ -132,20 +135,28 @@ if st.button("Calcular Agenda"):
 
         # Geração do gráfico
         fig, ax = plt.subplots()
-        ax.plot(range(dias_para_meta + 1), bancas, marker='o', linestyle='-', color='#ff4b4b')
-        ax.set_title("Evolução da Banca", color="white", fontsize=14, fontweight="bold")
-        ax.set_xlabel("Dias", color="white", fontweight="bold")
-        ax.set_ylabel("Banca (R$)", color="white", fontweight="bold")
-        ax.grid(True, color="white")
-        ax.set_facecolor('#0d1216')
-        ax.tick_params(colors='white')
-        ax.spines['bottom'].set_color('white')
-        ax.spines['left'].set_color('white')
 
+        # Ajuste o fundo do gráfico, eixos e título
+        ax.plot(range(dias_para_meta + 1), bancas, marker='o', linestyle='-', color='#ff4b4b')  # Linha avermelhada
+        ax.set_title("Evolução da Banca", color="white", fontsize=14, fontweight="bold")  # Título em branco
+        ax.set_xlabel("Dias", color="white", fontweight="bold")  # Texto eixo X em branco
+        ax.set_ylabel("Banca (R$)", color="white", fontweight="bold")  # Texto eixo Y em branco
+        ax.grid(True, color="white")
+        ax.set_facecolor('#0d1216')  # Fundo do gráfico em preto
+
+        # Ajustando o fundo da área ao redor do gráfico
+        fig.patch.set_facecolor('#0d1216')  # Fundo ao redor do gráfico em preto
+        fig.patch.set_edgecolor('none')  # Remove a borda do gráfico
+
+        ax.tick_params(colors='white')  # Ticks em branco
+        ax.spines['bottom'].set_color('white')  # Eixo inferior em branco
+        ax.spines['left'].set_color('white')  # Eixo esquerdo em branco
+
+        # Ajuste a transparência para remover qualquer borda branca
         grafico_buffer = BytesIO()
-        fig.savefig(grafico_buffer, format="png", transparent=False)  # Alterei para transparent=False
-        grafico_buffer.seek(0)
-        st.image(grafico_buffer, caption="Evolução da Banca", use_column_width=True)
+        fig.savefig(grafico_buffer, format="png", transparent=True)  # Removendo a transparência para fundo escuro
+        grafico_buffer.seek(0)  # Resetar o buffer para leitura posterior
+        st.image(grafico_buffer, caption="Evolução da Banca", use_column_width=True)  # Exibe o gráfico
 
     else:
         st.error("Por favor, insira valores válidos para todos os campos!")
@@ -188,32 +199,3 @@ def exportar_pdf():
 if grafico_buffer:
     pdf_buffer = exportar_pdf()
     st.download_button("Baixar Agenda em PDF", data=pdf_buffer, file_name="agenda_trader_pedro.pdf", mime="application/pdf")
-
-# Links finais
-col1, col2 = st.columns(2)
-with col1:
-    st.markdown(
-        '<a href="https://trade.polariumbroker.com/register?aff=436446&aff_model=revenue&afftrack=" target="_blank" '
-        'style="background-color: #0d1216; color: #ffffff; font-weight: bold; border: 2px solid #ff4b4b; '
-        'border-radius: 5px; padding: 10px 15px; font-size: 16px; text-decoration: none; text-align: center; '
-        'display: inline-block;" id="btn-create-polarium">Crie sua conta na Polarium Broker</a>',
-        unsafe_allow_html=True
-    )
-
-with col2:
-    st.markdown(
-        '<a href="https://br.tradingview.com/pricing/?share_your_love=traderpedrobr" target="_blank" '
-        'style="background-color: #0d1216; color: #ffffff; font-weight: bold; border: 2px solid #ff4b4b; '
-        'border-radius: 5px; padding: 10px 15px; font-size: 16px; text-decoration: none; text-align: center; '
-        'display: inline-block;" id="btn-tradingview">Acesse TradingView</a>',
-        unsafe_allow_html=True
-    )
-
-with col1:
-    st.markdown(
-        '<a href="https://drive.google.com/file/d/1H_VNOgYSRNnsGIEj_g2B3xwQxSa-Zu4d/view?usp=sharing" target="_blank" '
-        'style="background-color: #0d1216; color: #ffffff; font-weight: bold; border: 2px solid #00b140; '
-        'border-radius: 5px; padding: 10px 15px; font-size: 16px; text-decoration: none; text-align: center; '
-        'display: inline-block;" id="btn-analise-abundante">Baixe o eBook Análise Abundante</a>',
-        unsafe_allow_html=True
-    )
