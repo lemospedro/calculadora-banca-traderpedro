@@ -109,8 +109,6 @@ def exportar_pdf():
     styles = getSampleStyleSheet()
     style_normal = styles["Normal"]
     style_bold = styles["Heading2"]
-    style_bold.textColor = colors.black  # Texto preto
-    style_normal.textColor = colors.black  # Texto preto
 
     # Adicionar textos
     elementos.append(Paragraph("Calculadora de Metas - Trader Pedro", style_bold))
@@ -131,18 +129,12 @@ def exportar_pdf():
         elementos.append(Image(grafico_buffer, width=500, height=300))
 
     # Construir o PDF
-    pdf.build(elementos, onFirstPage=lambda c, d: c.setFillColor(colors.black), onLaterPages=lambda c, d: c.setFillColor(colors.black))
-
-    # Retornar o buffer
+    pdf.build(elementos)
     buffer.seek(0)
     return buffer
 
-# Verificação para garantir que o PDF seja gerado corretamente
 if grafico_gerado:
-    st.markdown("---")
     pdf_buffer = exportar_pdf()
-
-    # Garantir que o arquivo seja baixado corretamente
     st.download_button("Baixar Agenda em PDF", data=pdf_buffer, file_name="agenda_trader_pedro.pdf", mime="application/pdf")
 
 # Links finais
@@ -150,23 +142,25 @@ col1, col2 = st.columns(2)
 with col1:
     st.markdown(
         '<a href="https://trade.polariumbroker.com/register?aff=436446&aff_model=revenue&afftrack=" target="_blank" '
-        'style="background-color: #ff4b4b; color: #ffffff; font-weight: bold; border: none; border-radius: 5px; padding: 10px 15px; '
-        'font-size: 16px; text-decoration: none; text-align: center; display: inline-block; transition: all 0.3s;">Crie sua conta na Polarium Broker</a>',
+        'style="background-color: #0d1216; color: #ffffff; font-weight: bold; border: 2px solid #ff4b4b; '
+        'border-radius: 5px; padding: 10px 15px; font-size: 16px; text-decoration: none; text-align: center; '
+        'display: inline-block;">Crie sua conta na Polarium Broker</a>',
         unsafe_allow_html=True
     )
 
 with col2:
     st.markdown(
         '<a href="https://br.tradingview.com/pricing/?share_your_love=traderpedrobr" target="_blank" '
-        'style="background-color: #ff4b4b; color: #ffffff; font-weight: bold; border: none; border-radius: 5px; padding: 10px 15px; '
-        'font-size: 16px; text-decoration: none; text-align: center; display: inline-block; transition: all 0.3s;">Crie sua conta no TradingView</a>',
+        'style="background-color: #0d1216; color: #ffffff; font-weight: bold; border: 2px solid #ff4b4b; '
+        'border-radius: 5px; padding: 10px 15px; font-size: 16px; text-decoration: none; text-align: center; '
+        'display: inline-block;">Crie sua conta no TradingView</a>',
         unsafe_allow_html=True
     )
 
-# Botão para abrir o eBook
 st.markdown(
     '<a href="https://drive.google.com/file/d/1H_VNOgYSRNnsGIEj_g2B3xwQxSa-Zu4d/view?usp=sharing" target="_blank" '
-    'style="background-color: #14b802; color: #ffffff; font-weight: bold; border: none; border-radius: 5px; padding: 10px 15px; '
-    'font-size: 16px; text-decoration: none; text-align: center; display: inline-block; transition: all 0.3s;">Abrir Análise Abundante</a>',
+    'style="background-color: #0d1216; color: #ffffff; font-weight: bold; border: 2px solid #14b802; '
+    'border-radius: 5px; padding: 10px 15px; font-size: 16px; text-decoration: none; text-align: center; '
+    'display: inline-block;">Abrir Análise Abundante</a>',
     unsafe_allow_html=True
 )
