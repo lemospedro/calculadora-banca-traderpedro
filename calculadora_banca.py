@@ -146,7 +146,7 @@ if st.button("Calcular Agenda"):
         ax.spines['left'].set_color('white')  # Eixo esquerdo em branco
 
         grafico_buffer = BytesIO()
-       fig.savefig(grafico_buffer, format="png", transparent=False)  # Mantém o fundo preto
+        fig.savefig(grafico_buffer, format="png", transparent=False)  # Mantém o fundo preto
         grafico_buffer.seek(0)  # Resetar o buffer para leitura posterior
         st.image(grafico_buffer, caption="Evolução da Banca", use_column_width=True)  # Exibe o gráfico
 
@@ -205,18 +205,9 @@ with col1:
 
 with col2:
     st.markdown(
-        '<a href="https://br.tradingview.com/pricing/?share_your_love=traderpedrobr" target="_blank" '
+        '<a href="https://br.tradingview.com/pricing/?share_your_love=3" target="_blank" '
         'style="background-color: #0d1216; color: #ffffff; font-weight: bold; border: 2px solid #ff4b4b; '
         'border-radius: 5px; padding: 10px 15px; font-size: 16px; text-decoration: none; text-align: center; '
-        'display: inline-block;" id="btn-tradingview">Acesse TradingView</a>',
-        unsafe_allow_html=True
-    )
-
-with col1:
-    st.markdown(
-        '<a href="https://drive.google.com/file/d/1H_VNOgYSRNnsGIEj_g2B3xwQxSa-Zu4d/view?usp=sharing" target="_blank" '
-        'style="background-color: #0d1216; color: #ffffff; font-weight: bold; border: 2px solid #00b140; '
-        'border-radius: 5px; padding: 10px 15px; font-size: 16px; text-decoration: none; text-align: center; '
-        'display: inline-block;" id="btn-analise-abundante">Baixe o eBook Análise Abundante</a>',
+        'display: inline-block;" id="btn-tradingview">Assine o TradingView</a>',
         unsafe_allow_html=True
     )
