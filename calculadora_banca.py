@@ -82,7 +82,7 @@ if st.button("Calcular Agenda"):
 
         # Geração do gráfico
         plt.figure(facecolor="#0d1216")
-        plt.plot(range(dias_para_meta + 1), bancas, marker='o', linestyle='-', color='white')
+        plt.plot(range(dias_para_meta + 1), bancas, marker='o', linestyle='-', color='#ff4b4b')  # Linha avermelhada
         plt.title("Evolução da Banca", color="white", fontsize=14, fontweight="bold")
         plt.xlabel("Dias", color="white", fontweight="bold")
         plt.ylabel("Banca (R$)", color="white", fontweight="bold")
@@ -108,8 +108,8 @@ def exportar_pdf():
     styles = getSampleStyleSheet()
     style_normal = styles["Normal"]
     style_bold = styles["Heading2"]
-    style_bold.textColor = colors.white
-    style_normal.textColor = colors.white
+    style_bold.textColor = colors.black  # Texto preto
+    style_normal.textColor = colors.black  # Texto preto
 
     # Adicionar textos
     elementos.append(Paragraph("Calculadora de Metas - Trader Pedro", style_bold))
