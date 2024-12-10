@@ -26,7 +26,7 @@ st.markdown("""
 
         /* Fundo da aplicação em preto */
         .stApp {
-            background-color: #000000;
+            background-color: #0d1216;
         }
 
         /* Labels dos inputs estilizados */
