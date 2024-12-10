@@ -41,10 +41,10 @@ st.markdown("""
             font-family: 'Helvetica', sans-serif;
         }
 
-        /* Estilo dos botões */
+        /* Estilo base dos botões */
         a {
             background-color: #0d1216; /* Cor padrão */
-            border: 2px solid #ff4b4b; /* Borda */
+            border: 2px solid #ff4b4b; /* Borda padrão */
             color: #ffffff !important; /* Texto branco */
             font-weight: bold;
             border-radius: 5px;
@@ -63,6 +63,11 @@ st.markdown("""
             color: #ffcccb; /* Texto em tom suave */
             transform: scale(1.05); /* Leve aumento */
             box-shadow: 0 0 10px rgba(255, 75, 75, 0.5); /* Sombra sutil */
+        }
+
+        /* Estilo do botão específico 'Abrir Análise Abundante' */
+        a.analise-abundante {
+            border-color: #00c418; /* Borda verde */
         }
     </style>
 """, unsafe_allow_html=True)
@@ -138,6 +143,6 @@ with col2:
     )
 
 st.markdown(
-    '<a href="https://drive.google.com/file/d/1H_VNOgYSRNnsGIEj_g2B3xwQxSa-Zu4d/view?usp=sharing" target="_blank">Abrir Análise Abundante</a>',
+    '<a class="analise-abundante" href="https://drive.google.com/file/d/1H_VNOgYSRNnsGIEj_g2B3xwQxSa-Zu4d/view?usp=sharing" target="_blank">Abrir Análise Abundante</a>',
     unsafe_allow_html=True
 )
