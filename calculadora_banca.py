@@ -92,8 +92,9 @@ if st.button("Calcular Agenda"):
         plt.gca().spines['bottom'].set_color('white')  # Eixo inferior em branco
         plt.gca().spines['left'].set_color('white')  # Eixo esquerdo em branco
         grafico_buffer = BytesIO()
-        plt.savefig(grafico_buffer, format="png", transparent=True)
+        plt.savefig(grafico_buffer, format="png", transparent=False)  # Remove transparência para fundo escuro
         st.pyplot(plt)
+        grafico_buffer.seek(0)  # Resetar o buffer para leitura posterior
         grafico_gerado = True
     else:
         st.error("Por favor, insira valores válidos para todos os campos!")
