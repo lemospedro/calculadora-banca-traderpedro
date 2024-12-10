@@ -20,6 +20,7 @@ st.markdown("""
             text-align: center;
             color: #ff4b4b;
             margin-bottom: 50px;
+            animation: bounce 2s ease infinite;  /* Animação do título */
         }
         .stApp {
             background-color: #0d1216;
@@ -32,6 +33,39 @@ st.markdown("""
         * {
             font-family: 'Helvetica', sans-serif;
         }
+        
+        /* Animação de "bouncing" para o título */
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        /* Efeito nos botões ao passar o mouse */
+        .stButton>button {
+            transition: all 0.3s ease;
+        }
+        .stButton>button:hover {
+            transform: scale(1.1); /* Aumenta o tamanho do botão */
+            background-color: #ff4b4b; /* Muda a cor de fundo */
+            color: white; /* Muda a cor do texto */
+        }
+
+        /* Botão "Análise Abundante" personalizado */
+        .stButton>button#btn-analise-abundante {
+            background-color: #0d1216;
+            color: #ffffff;
+            border: 2px solid #00b140; /* Borda verde */
+        }
+        .stButton>button#btn-analise-abundante:hover {
+            background-color: #0d1216;
+            border: 2px solid #00b140;
+            color: #00b140; /* Muda a cor do texto para verde */
+        }
+
     </style>
 """, unsafe_allow_html=True)
 
@@ -149,11 +183,11 @@ with col2:
         unsafe_allow_html=True
     )
 
-# Adicionando o botão "Análise Abundante"
-st.markdown("""
-    <br>
-    <a href="URL_DO_EBOOK" target="_blank" 
-       style="background-color: #ff4b4b; color: #ffffff; font-weight: bold; border: 2px solid #ff4b4b; 
-              border-radius: 5px; padding: 10px 15px; font-size: 16px; text-decoration: none; text-align: center; 
-              display: inline-block;">Abrir Análise Abundante</a>
-""", unsafe_allow_html=True)
+with col1:
+    st.markdown(
+        '<a href="https://example.com/analise-abundante" target="_blank" '
+        'style="background-color: #0d1216; color: #ffffff; font-weight: bold; border: 2px solid #00b140; '
+        'border-radius: 5px; padding: 10px 15px; font-size: 16px; text-decoration: none; text-align: center; '
+        'display: inline-block;" class="stButton" id="btn-analise-abundante">Abrir Análise Abundante</a>',
+        unsafe_allow_html=True
+    )
