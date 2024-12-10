@@ -54,7 +54,7 @@ else:
         <style>
             /* Tema Claro */
             body {
-                background-color: #f8f8f8;
+                background-color: #f0f0f0;  /* Cor de fundo clara */
                 color: black;
             }
             h1, h2, h3, p, label {
@@ -118,13 +118,13 @@ if st.button("Calcular Agenda"):
             st.write(linha)
 
         # Geração do gráfico
-        plt.figure(facecolor="#0d1216" if theme == "Escuro" else "#f8f8f8")
+        plt.figure(facecolor="#0d1216" if theme == "Escuro" else "#f0f0f0")  # Cor do fundo do gráfico
         plt.plot(range(dias_para_meta + 1), bancas, marker='o', linestyle='-', color='#ff4b4b' if theme == "Escuro" else '#4CAF50')  # Linha avermelhada ou verde
         plt.title("Evolução da Banca", color="white" if theme == "Escuro" else "black", fontsize=14, fontweight="bold")  # Título em branco ou preto
         plt.xlabel("Dias", color="white" if theme == "Escuro" else "black", fontweight="bold")  # Texto eixo X em branco ou preto
         plt.ylabel("Banca (R$)", color="white" if theme == "Escuro" else "black", fontweight="bold")  # Texto eixo Y em branco ou preto
         plt.grid(True, color="white" if theme == "Escuro" else "black")
-        plt.gca().set_facecolor('#0d1216' if theme == "Escuro" else "#f8f8f8")
+        plt.gca().set_facecolor('#0d1216' if theme == "Escuro" else "#f0f0f0")  # Fundo do gráfico em preto ou claro
         plt.tick_params(colors='white' if theme == "Escuro" else 'black')  # Ticks em branco ou preto
         plt.gca().spines['bottom'].set_color('white' if theme == "Escuro" else 'black')  # Eixo inferior em branco ou preto
         plt.gca().spines['left'].set_color('white' if theme == "Escuro" else 'black')  # Eixo esquerdo em branco ou preto
