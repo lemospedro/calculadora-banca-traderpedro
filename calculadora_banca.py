@@ -46,12 +46,10 @@ st.markdown("""
             }
         }
 
-        /* Efeito de transição nos botões */
+        /* Efeito nos botões com mudança de cor de fundo e borda */
         .stButton>button {
             transition: all 0.3s ease;
-            border-radius: 5px;  /* Arredondamento dos botões */
         }
-
         .stButton>button:hover {
             background-color: #ff4b4b;  /* Altera a cor de fundo para vermelho */
             color: #ffffff;  /* Muda a cor do texto para branco */
@@ -204,6 +202,15 @@ with col1:
     )
 
 with col2:
+    st.markdown(
+        '<a href="https://br.tradingview.com/pricing/?share_your_love=traderpedrobr" target="_blank" '
+        'style="background-color: #0d1216; color: #ffffff; font-weight: bold; border: 2px solid #ff4b4b; '
+        'border-radius: 5px; padding: 10px 15px; font-size: 16px; text-decoration: none; text-align: center; '
+        'display: inline-block;" id="btn-tradingview">Acesse TradingView</a>',
+        unsafe_allow_html=True
+    )
+
+with col1:
     st.markdown(
         '<a href="https://drive.google.com/file/d/1H_VNOgYSRNnsGIEj_g2B3xwQxSa-Zu4d/view?usp=sharing" target="_blank" '
         'style="background-color: #0d1216; color: #ffffff; font-weight: bold; border: 2px solid #00b140; '
