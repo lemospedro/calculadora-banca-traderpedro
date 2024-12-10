@@ -140,7 +140,7 @@ if st.button("Calcular Agenda"):
         ax.set_xlabel("Dias", color="white", fontweight="bold")  # Texto eixo X em branco
         ax.set_ylabel("Banca (R$)", color="white", fontweight="bold")  # Texto eixo Y em branco
         ax.grid(True, color="white")
-        ax.set_facecolor('#0d1216')
+        ax.set_facecolor('#0d1216')  # Fundo escuro do gráfico
         ax.tick_params(axis='x', colors='white')  # Ticks do eixo X em branco
         ax.tick_params(axis='y', colors='white')  # Ticks do eixo Y em branco
         ax.spines['bottom'].set_color('white')  # Eixo inferior em branco
@@ -206,18 +206,9 @@ with col1:
 
 with col2:
     st.markdown(
-        '<a href="https://br.tradingview.com/pricing/?share_your_love=traderpedrobr" target="_blank" '
+        '<a href="https://www.zoho.com/pt-br/sites.html" target="_blank" '
         'style="background-color: #0d1216; color: #ffffff; font-weight: bold; border: 2px solid #ff4b4b; '
         'border-radius: 5px; padding: 10px 15px; font-size: 16px; text-decoration: none; text-align: center; '
-        'display: inline-block;" id="btn-tradingview">Acesse TradingView</a>',
-        unsafe_allow_html=True
-    )
-
-with col1:
-    st.markdown(
-        '<a href="https://drive.google.com/file/d/1tH1YfsGvmNz9bsC0Bxk8mYNf8yPmf6a_/view" target="_blank" '
-        'style="background-color: #0d1216; color: #ffffff; font-weight: bold; border: 2px solid #ff4b4b; '
-        'border-radius: 5px; padding: 10px 15px; font-size: 16px; text-decoration: none; text-align: center; '
-        'display: inline-block;" id="btn-analise-abundante">Baixe o eBook Análise Abundante</a>',
+        'display: inline-block;" id="btn-zoho">Saiba mais sobre o Zoho</a>',
         unsafe_allow_html=True
     )
