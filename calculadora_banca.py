@@ -136,12 +136,13 @@ def exportar_pdf():
     buffer.seek(0)
     return buffer
 
-# Botão para exportar PDF
-if len(banca_evolucao) > 0:
+# Verificação para garantir que o PDF seja gerado corretamente
+if grafico_gerado:
     st.markdown("---")
-    if st.button("Exportar Agenda para PDF"):
-        pdf_buffer = exportar_pdf()
-        st.download_button("Baixar Agenda em PDF", data=pdf_buffer, file_name="agenda_trader_pedro.pdf", mime="application/pdf")
+    pdf_buffer = exportar_pdf()
+
+    # Garantir que o arquivo seja baixado corretamente
+    st.download_button("Baixar Agenda em PDF", data=pdf_buffer, file_name="agenda_trader_pedro.pdf", mime="application/pdf")
 
 # Links finais
 col1, col2 = st.columns(2)
