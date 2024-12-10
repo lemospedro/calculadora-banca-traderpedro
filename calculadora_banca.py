@@ -140,13 +140,13 @@ if st.button("Calcular Agenda"):
         ax.set_xlabel("Dias", color="white", fontweight="bold")  # Texto eixo X em branco
         ax.set_ylabel("Banca (R$)", color="white", fontweight="bold")  # Texto eixo Y em branco
         ax.grid(True, color="white")
-        ax.set_facecolor('#0d1216')  # Fundo escuro do gráfico
+        ax.set_facecolor('#0d1216')  # Fundo escuro
         ax.tick_params(colors='white')  # Ticks em branco
         ax.spines['bottom'].set_color('white')  # Eixo inferior em branco
         ax.spines['left'].set_color('white')  # Eixo esquerdo em branco
 
         grafico_buffer = BytesIO()
-        fig.savefig(grafico_buffer, format="png", transparent=True)  # Removendo a transparência para fundo escuro
+        fig.savefig(grafico_buffer, format="png")  # Remover o transparent=True
         grafico_buffer.seek(0)  # Resetar o buffer para leitura posterior
         st.image(grafico_buffer, caption="Evolução da Banca", use_column_width=True)  # Exibe o gráfico
 
