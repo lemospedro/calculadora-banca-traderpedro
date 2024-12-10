@@ -140,14 +140,8 @@ with col1:
         unsafe_allow_html=True
     )
 
-with col2:
-    st.markdown(
-        '<a href="https://br.tradingview.com/pricing/?share_your_love=traderpedrobr" target="_blank" '
-        'style="background-color: #0d1216; color: #ffffff; font-weight: bold; border: 2px solid; '
-        'border-image: linear-gradient(90deg, #ff4b4b, #ff914d, #ffcc00) 1; '
-        'border-radius: 5px; padding: 10px 15px; font-size: 16px; text-decoration: none;">Abrir TradingView</a>',
-        unsafe_allow_html=True
-    )
+# Espaçamento entre os botões
+st.markdown("<br>", unsafe_allow_html=True)
 
 st.markdown(
     '<a href="https://drive.google.com/file/d/1H_VNOgYSRNnsGIEj_g2B3xwQxSa-Zu4d/view?usp=sharing" target="_blank" '
