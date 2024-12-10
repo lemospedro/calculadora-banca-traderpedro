@@ -148,3 +148,12 @@ with col2:
         'display: inline-block;">Crie sua conta no TradingView</a>',
         unsafe_allow_html=True
     )
+
+# Adicionando o botão "Análise Abundante"
+st.markdown("""
+    <br>
+    <a href="URL_DO_EBOOK" target="_blank" 
+       style="background-color: #ff4b4b; color: #ffffff; font-weight: bold; border: 2px solid #ff4b4b; 
+              border-radius: 5px; padding: 10px 15px; font-size: 16px; text-decoration: none; text-align: center; 
+              display: inline-block;">Abrir Análise Abundante</a>
+""", unsafe_allow_html=True)
