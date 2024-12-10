@@ -140,14 +140,13 @@ if st.button("Calcular Agenda"):
         ax.set_xlabel("Dias", color="white", fontweight="bold")  # Texto eixo X em branco
         ax.set_ylabel("Banca (R$)", color="white", fontweight="bold")  # Texto eixo Y em branco
         ax.grid(True, color="white")
-        ax.set_facecolor('#0d1216')  # Fundo escuro do gráfico
-        ax.tick_params(axis='x', colors='white')  # Ticks do eixo X em branco
-        ax.tick_params(axis='y', colors='white')  # Ticks do eixo Y em branco
+        ax.set_facecolor('#0d1216')
+        ax.tick_params(colors='white')  # Ticks em branco
         ax.spines['bottom'].set_color('white')  # Eixo inferior em branco
         ax.spines['left'].set_color('white')  # Eixo esquerdo em branco
 
         grafico_buffer = BytesIO()
-        fig.savefig(grafico_buffer, format="png", transparent=False)  # Aqui ajustamos para o fundo não ser transparente
+        fig.savefig(grafico_buffer, format="png", transparent=True)  # Removendo a transparência para fundo escuro
         grafico_buffer.seek(0)  # Resetar o buffer para leitura posterior
         st.image(grafico_buffer, caption="Evolução da Banca", use_column_width=True)  # Exibe o gráfico
 
@@ -206,9 +205,18 @@ with col1:
 
 with col2:
     st.markdown(
-        '<a href="https://www.zoho.com/pt-br/sites.html" target="_blank" '
+        '<a href="https://br.tradingview.com/pricing/?share_your_love=traderpedrobr" target="_blank" '
         'style="background-color: #0d1216; color: #ffffff; font-weight: bold; border: 2px solid #ff4b4b; '
         'border-radius: 5px; padding: 10px 15px; font-size: 16px; text-decoration: none; text-align: center; '
-        'display: inline-block;" id="btn-zoho">Saiba mais sobre o Zoho</a>',
+        'display: inline-block;" id="btn-tradingview">Acesse TradingView</a>',
+        unsafe_allow_html=True
+    )
+
+with col1:
+    st.markdown(
+        '<a href="https://drive.google.com/file/d/1H_VNOgYSRNnsGIEj_g2B3xwQxSa-Zu4d/view?usp=sharing" target="_blank" '
+        'style="background-color: #0d1216; color: #ffffff; font-weight: bold; border: 2px solid #00b140; '
+        'border-radius: 5px; padding: 10px 15px; font-size: 16px; text-decoration: none; text-align: center; '
+        'display: inline-block;" id="btn-analise-abundante">Baixe o eBook Análise Abundante</a>',
         unsafe_allow_html=True
     )
