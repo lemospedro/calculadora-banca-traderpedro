@@ -31,7 +31,7 @@ st.markdown("""
 
         /* Labels dos inputs estilizados */
         .stNumberInput label, .stTextInput label {
-            font-family: 'Helvetica', !important;
+            font-family: 'Helvetica', sans-serif;
             font-weight: bold;
             color: #ffffff !important; /* Cor branca */
         }
@@ -39,6 +39,30 @@ st.markdown("""
         /* Aplicando Helvetica em todo o texto */
         * {
             font-family: 'Helvetica', sans-serif;
+        }
+
+        /* Estilo dos botões */
+        a {
+            background-color: #0d1216; /* Cor padrão */
+            border: 2px solid #ff4b4b; /* Borda */
+            color: #ffffff !important; /* Texto branco */
+            font-weight: bold;
+            border-radius: 5px;
+            padding: 10px 15px;
+            font-size: 16px;
+            text-decoration: none;
+            text-align: center;
+            display: inline-block;
+            transition: all 0.3s ease-in-out; /* Transição suave */
+            box-shadow: 0 0 0 transparent; /* Inicialmente sem sombra */
+        }
+
+        /* Hover: Mudança de cor, sombra e leve aumento */
+        a:hover {
+            background-color: #1a1f25; /* Cor levemente mais clara */
+            color: #ffcccb; /* Texto em tom suave */
+            transform: scale(1.05); /* Leve aumento */
+            box-shadow: 0 0 10px rgba(255, 75, 75, 0.5); /* Sombra sutil */
         }
     </style>
 """, unsafe_allow_html=True)
@@ -92,75 +116,28 @@ if st.button("Calcular Agenda"):
         plt.gca().spines['bottom'].set_color('white')  # Eixo inferior em branco
         plt.gca().spines['left'].set_color('white')  # Eixo esquerdo em branco
         grafico_buffer = BytesIO()
-        plt.savefig(grafico_buffer, format="png", transparent=False)  # Remove transparência para fundo escuro
+        plt.savefig(grafico_buffer, format="png", transparent=False)
         st.pyplot(plt)
-        grafico_buffer.seek(0)  # Resetar o buffer para leitura posterior
+        grafico_buffer.seek(0)
         grafico_gerado = True
     else:
         st.error("Por favor, insira valores válidos para todos os campos!")
 
-# Função para exportar para PDF
-def exportar_pdf():
-    buffer = BytesIO()
-    pdf = SimpleDocTemplate(buffer, pagesize=letter)
-    elementos = []
-
-    # Estilos
-    styles = getSampleStyleSheet()
-    style_normal = styles["Normal"]
-    style_bold = styles["Heading2"]
-
-    # Adicionar textos
-    elementos.append(Paragraph("Calculadora de Metas - Trader Pedro", style_bold))
-    elementos.append(Spacer(1, 12))
-    elementos.append(Paragraph(f"Banca Inicial: R$ {banca_inicial:.2f}", style_normal))
-    elementos.append(Paragraph(f"Meta Total: R$ {meta_desejada:.2f}", style_normal))
-    elementos.append(Paragraph(f"Dias para atingir a meta: {dias_para_meta}", style_normal))
-    elementos.append(Spacer(1, 12))
-
-    # Adicionar a agenda
-    for linha in banca_evolucao:
-        elementos.append(Paragraph(linha, style_normal))
-
-    # Adicionar o gráfico como imagem
-    if grafico_gerado:
-        grafico_buffer.seek(0)
-        elementos.append(Spacer(1, 12))
-        elementos.append(Image(grafico_buffer, width=500, height=300))
-
-    # Construir o PDF
-    pdf.build(elementos)
-    buffer.seek(0)
-    return buffer
-
-if grafico_gerado:
-    pdf_buffer = exportar_pdf()
-    st.download_button("Baixar Agenda em PDF", data=pdf_buffer, file_name="agenda_trader_pedro.pdf", mime="application/pdf")
-
-# Links finais
+# Links finais com animações
 col1, col2 = st.columns(2)
 with col1:
     st.markdown(
-        '<a href="https://trade.polariumbroker.com/register?aff=436446&aff_model=revenue&afftrack=" target="_blank" '
-        'style="background-color: #0d1216; color: #ffffff; font-weight: bold; border: 2px solid #ff4b4b; '
-        'border-radius: 5px; padding: 10px 15px; font-size: 16px; text-decoration: none; text-align: center; '
-        'display: inline-block;">Crie sua conta na Polarium Broker</a>',
+        '<a href="https://trade.polariumbroker.com/register?aff=436446&aff_model=revenue&afftrack=" target="_blank">Crie sua conta na Polarium Broker</a>',
         unsafe_allow_html=True
     )
 
 with col2:
     st.markdown(
-        '<a href="https://br.tradingview.com/pricing/?share_your_love=traderpedrobr" target="_blank" '
-        'style="background-color: #0d1216; color: #ffffff; font-weight: bold; border: 2px solid #ff4b4b; '
-        'border-radius: 5px; padding: 10px 15px; font-size: 16px; text-decoration: none; text-align: center; '
-        'display: inline-block;">Crie sua conta no TradingView</a>',
+        '<a href="https://br.tradingview.com/pricing/?share_your_love=traderpedrobr" target="_blank">Crie sua conta no TradingView</a>',
         unsafe_allow_html=True
     )
 
 st.markdown(
-    '<a href="https://drive.google.com/file/d/1H_VNOgYSRNnsGIEj_g2B3xwQxSa-Zu4d/view?usp=sharing" target="_blank" '
-    'style="background-color: #0d1216; color: #ffffff; font-weight: bold; border: 2px solid #14b802; '
-    'border-radius: 5px; padding: 10px 15px; font-size: 16px; text-decoration: none; text-align: center; '
-    'display: inline-block;">Abrir Análise Abundante</a>',
+    '<a href="https://drive.google.com/file/d/1H_VNOgYSRNnsGIEj_g2B3xwQxSa-Zu4d/view?usp=sharing" target="_blank">Abrir Análise Abundante</a>',
     unsafe_allow_html=True
 )
