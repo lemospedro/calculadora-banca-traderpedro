@@ -40,7 +40,7 @@ st.markdown("""
             justify-content: center;
             align-items: center;
             flex-direction: column;
-            gap: 10px;
+            gap: 20px;  /* Distância entre os botões */
         }
     </style>
 """, unsafe_allow_html=True)
