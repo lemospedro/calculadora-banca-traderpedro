@@ -40,6 +40,25 @@ if theme == "Escuro":
                 color: #ffffff !important; /* Cor branca */
             }
 
+            /* Seleção do tema */
+            .stSelectbox label {
+                font-family: 'Helvetica', sans-serif;
+                color: #ffffff !important;
+            }
+
+            /* Botões */
+            .stButton>button {
+                background-color: #ff4b4b;
+                color: #ffffff !important;
+                font-weight: bold;
+                border-radius: 5px;
+                padding: 10px 15px;
+            }
+
+            .stButton>button:hover {
+                background-color: #e63e3e;
+            }
+
             /* Aplicando Helvetica em todo o texto */
             * {
                 font-family: 'Helvetica', sans-serif;
@@ -70,6 +89,26 @@ else:
                 font-family: 'Helvetica', !important;
                 font-weight: bold;
                 color: #000000 !important; /* Cor preta */
+            }
+
+            /* Seleção do tema */
+            .stSelectbox label {
+                font-family: 'Helvetica', sans-serif;
+                color: #000000 !important;
+            }
+
+            /* Botões */
+            .stButton>button {
+                background-color: #f8f8f8;
+                color: #0d1216 !important;
+                font-weight: bold;
+                border-radius: 5px;
+                padding: 10px 15px;
+                border: 2px solid #0d1216;
+            }
+
+            .stButton>button:hover {
+                background-color: #e0e0e0;
             }
 
             /* Aplicando Helvetica em todo o texto */
@@ -185,12 +224,12 @@ if grafico_gerado:
 col1, col2 = st.columns(2)
 with col1:
     st.markdown(
-        '<a href="https://trade.polariumbroker.com/register?aff=436446&aff_model=revenue&afftrack=" target="_blank" style="background-color: #ffffff; color: #0d1216; font-weight: bold; border: none; border-radius: 5px; padding: 10px 15px; font-size: 16px; text-decoration: none; text-align: center; display: inline-block; transition: all 0.3s;">Crie sua conta na Polarium Broker</a>',
+        '<a href="https://trade.polariumbroker.com/register?aff=436446&aff_model=revenue&afftrack=" target="_blank" style="background-color: #ff4b4b; color: #ffffff; font-weight: bold; border: none; border-radius: 5px; padding: 10px 15px; font-size: 16px; text-decoration: none; text-align: center; display: inline-block; transition: all 0.3s;">Crie sua conta na Polarium Broker</a>',
         unsafe_allow_html=True
     )
 
 with col2:
     st.markdown(
-        '<a href="https://br.tradingview.com/pricing/" target="_blank" style="background-color: #ffffff; color: #0d1216; font-weight: bold; border: none; border-radius: 5px; padding: 10px 15px; font-size: 16px; text-decoration: none; text-align: center; display: inline-block; transition: all 0.3s;">Acesse o TradingView</a>',
+        '<a href="https://br.tradingview.com/pricing/" target="_blank" style="background-color: #ff4b4b; color: #ffffff; font-weight: bold; border: none; border-radius: 5px; padding: 10px 15px; font-size: 16px; text-decoration: none; text-align: center; display: inline-block; transition: all 0.3s;">Acesse o TradingView</a>',
         unsafe_allow_html=True
     )
