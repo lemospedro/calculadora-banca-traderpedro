@@ -41,8 +41,8 @@ st.markdown("""
 
         /* Botões Gerais */
         a, button {
-            background-color: #0d1216;
-            border: 2px solid #ff4b4b;
+            background-color: #1a1f25; /* Cor cinza estática */
+            border: 2px solid transparent; /* Sem borda inicialmente */
             color: #ffffff !important;
             font-weight: bold;
             border-radius: 5px;
@@ -57,7 +57,7 @@ st.markdown("""
         }
 
         a:hover, button:hover {
-            background-color: #1a1f25;
+            border: 2px solid #ff4b4b; /* Borda vermelha ao passar o mouse */
             color: #ffcccb;
             transform: scale(1.05);
             box-shadow: 0 0 10px rgba(255, 75, 75, 0.5);
@@ -88,8 +88,8 @@ grafico_gerado = False
 st.markdown("""
     <style>
         div.stButton > button {
-            background-color: #0d1216;
-            border: 2px solid #ff4b4b;
+            background-color: #1a1f25;
+            border: 2px solid transparent; /* Sem borda por padrão */
             color: white;
             font-weight: bold;
             font-size: 16px;
@@ -99,7 +99,7 @@ st.markdown("""
         }
 
         div.stButton > button:hover {
-            background-color: #1a1f25;
+            border: 2px solid #ff4b4b; /* Borda vermelha no hover */
             color: #ffcccb;
             transform: scale(1.05);
             box-shadow: 0 0 10px rgba(255, 75, 75, 0.5);
