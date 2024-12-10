@@ -141,7 +141,7 @@ def exportar_pdf():
 
 if grafico_gerado:
     pdf_buffer = exportar_pdf()
-    st.download_button("Baixar Agenda em PDF", data=pdf_buffer, file_name="agenda_trader_pedro.pdf", mime="application/pdf")
+    st.download_button("Baixar Agenda em PDF 📥", data=pdf_buffer, file_name="agenda_trader_pedro.pdf", mime="application/pdf")
 
 # Links finais com gradiente na borda
 # Criando uma coluna para os três botões
