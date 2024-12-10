@@ -149,12 +149,24 @@ if grafico_gerado:
 col1, col2 = st.columns(2)
 with col1:
     st.markdown(
-        '<a href="https://trade.polariumbroker.com/register?aff=436446&aff_model=revenue&afftrack=" target="_blank" style="background-color: #ffffff; color: #0d1216; font-weight: bold; border: none; border-radius: 5px; padding: 10px 15px; font-size: 16px; text-decoration: none; text-align: center; display: inline-block; transition: all 0.3s;">Crie sua conta na Polarium Broker</a>',
+        '<a href="https://trade.polariumbroker.com/register?aff=436446&aff_model=revenue&afftrack=" target="_blank" '
+        'style="background-color: #ffffff; color: #0d1216; font-weight: bold; border: none; border-radius: 5px; padding: 10px 15px; '
+        'font-size: 16px; text-decoration: none; text-align: center; display: inline-block; transition: all 0.3s;">Crie sua conta na Polarium Broker</a>',
         unsafe_allow_html=True
     )
 
 with col2:
     st.markdown(
-        '<a href="https://br.tradingview.com/pricing/?share_your_love=traderpedrobr" target="_blank" style="background-color: #ffffff; color: #0d1216; font-weight: bold; border: none; border-radius: 5px; padding: 10px 15px; font-size: 16px; text-decoration: none; text-align: center; display: inline-block; transition: all 0.3s;">Crie sua conta no TradingView</a>',
+        '<a href="https://br.tradingview.com/pricing/?share_your_love=traderpedrobr" target="_blank" '
+        'style="background-color: #ffffff; color: #0d1216; font-weight: bold; border: none; border-radius: 5px; padding: 10px 15px; '
+        'font-size: 16px; text-decoration: none; text-align: center; display: inline-block; transition: all 0.3s;">Crie sua conta no TradingView</a>',
         unsafe_allow_html=True
     )
+
+# Botão para abrir o eBook
+st.markdown(
+    '<a href="https://drive.google.com/file/d/1H_VNOgYSRNnsGIEj_g2B3xwQxSa-Zu4d/view?usp=sharing" target="_blank" '
+    'style="background-color: #ffffff; color: #0d1216; font-weight: bold; border: none; border-radius: 5px; padding: 10px 15px; '
+    'font-size: 16px; text-decoration: none; text-align: center; display: inline-block; transition: all 0.3s;">Abrir Análise Abundante</a>',
+    unsafe_allow_html=True
+)
