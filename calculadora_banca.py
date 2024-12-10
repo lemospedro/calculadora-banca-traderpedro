@@ -1,49 +1,86 @@
 import streamlit as st
 import matplotlib.pyplot as plt
-import pandas as pd
-from io import BytesIO
-from reportlab.pdfgen import canvas
+import numpy as np
+import io
 from reportlab.lib.pagesizes import letter
+from reportlab.pdfgen import canvas
 from reportlab.lib import colors
-from reportlab.lib.styles import getSampleStyleSheet
-from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Image
 from reportlab.pdfbase.ttfonts import TTFont
-from reportlab.pdfbase import pdfmetrics
+from reportlab import pdfmetrics
 
-# CSS global
-st.markdown("""
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+# Definir o local para garantir a formatação em português
+# locale.setlocale(locale.LC_ALL, 'pt_BR.UTF-8')
 
-        /* Título */
-        .stApp h1 {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 48px;
-            text-align: center;
-            color: #ff4b4b;
-            margin-bottom: 50px;
-        }
+# Função para alternar entre os temas claro e escuro
+def toggle_theme():
+    if 'theme' not in st.session_state:
+        st.session_state.theme = 'light'
+    
+    # Estilo do botão
+    if st.session_state.theme == 'light':
+        button_text = 'Escuro'
+        button_style = 'background-color: #ff4b4b; color: #ffffff; border-radius: 20px; width: 80px; height: 40px; display: flex; align-items: center; justify-content: center;'
+    else:
+        button_text = 'Claro'
+        button_style = 'background-color: #0d1216; color: #ffffff; border-radius: 20px; width: 80px; height: 40px; display: flex; align-items: center; justify-content: center;'
 
-        /* Fundo da aplicação em preto */
-        .stApp {
-            background-color: #0d1216;
-        }
+    # Exibir o botão
+    if st.button(button_text, key="theme_toggle", help=f"Ativar tema {button_text.lower()}", use_container_width=True, on_click=toggle_button, args=(st.session_state.theme,)):
+        pass
 
-        /* Labels dos inputs estilizados */
-        .stNumberInput label, .stTextInput label {
-            font-family: 'Helvetica', !important;
-            font-weight: bold;
-            color: #ffffff !important; /* Cor branca */
-        }
+    st.markdown(f"<div style='{button_style}'>{button_text}</div>", unsafe_allow_html=True)
 
-        /* Aplicando Helvetica em todo o texto */
-        * {
-            font-family: 'Helvetica', sans-serif;
-        }
-    </style>
-""", unsafe_allow_html=True)
+def toggle_button(theme):
+    if theme == 'light':
+        st.session_state.theme = 'dark'
+    else:
+        st.session_state.theme = 'light'
 
-# Título principal com fonte Bebas Neue
+
+# CSS para personalizar o tema
+def apply_theme():
+    if st.session_state.theme == 'dark':
+        st.markdown("""
+        <style>
+            .stApp {
+                background-color: #0d1216;
+            }
+            .stApp h1 {
+                color: #ff4b4b;
+            }
+            .stNumberInput label, .stTextInput label {
+                color: #ffffff !important;
+            }
+            .stButton button {
+                background-color: #ff4b4b;
+                color: white;
+            }
+        </style>
+        """, unsafe_allow_html=True)
+    else:
+        st.markdown("""
+        <style>
+            .stApp {
+                background-color: #ffffff;
+            }
+            .stApp h1 {
+                color: #000000;
+            }
+            .stNumberInput label, .stTextInput label {
+                color: #000000 !important;
+            }
+            .stButton button {
+                background-color: #000000;
+                color: white;
+            }
+        </style>
+        """, unsafe_allow_html=True)
+
+
+# Aplicando o tema
+apply_theme()
+
+# Título principal
 st.markdown("""
     <h1>Calculadora de Metas - Trader Pedro</h1>
 """, unsafe_allow_html=True)
@@ -53,26 +90,52 @@ banca_inicial = st.number_input("**Banca Inicial (R$):**", min_value=0.0, step=1
 meta_desejada = st.number_input("**Meta Total (R$):**", min_value=0.0, step=1.0, format="%.2f", key="meta_desejada")
 dias_para_meta = st.number_input("**Tempo para atingir a meta (dias):**", min_value=1, step=1, key="dias_para_meta")
 
-# Função para formatar os valores
+
+# Função para formatar valores
 def formatar_em_cru(valor):
     return f"{valor:,.2f}".replace(',', 'X').replace('.', ',').replace('X', '.')
 
-# Botão de cálculo
-banca_evolucao = []
-grafico_gerado = False
+
+# Função para gerar o gráfico
+def gerar_grafico(banca_inicial, meta_desejada, dias_para_meta):
+    porcentagem_diaria = (meta_desejada / banca_inicial) ** (1 / dias_para_meta) - 1
+    banca_atual = banca_inicial
+    banca_evolucao = [banca_atual]
+
+    for dia in range(1, dias_para_meta + 1):
+        ganho_diario = banca_atual * porcentagem_diaria
+        banca_atual += ganho_diario
+        banca_evolucao.append(banca_atual)
+
+    # Gerar gráfico
+    plt.figure(figsize=(10, 6))
+    plt.plot(range(dias_para_meta + 1), banca_evolucao, label='Evolução da Banca', color='red', linewidth=2)
+    plt.xlabel('Dia')
+    plt.ylabel('Valor da Banca (R$)')
+    plt.title('Evolução da Banca ao Longo dos Dias')
+    plt.grid(True)
+    plt.tight_layout()
+
+    # Salvar o gráfico em uma imagem
+    img_buf = io.BytesIO()
+    plt.savefig(img_buf, format='png')
+    img_buf.seek(0)
+    return img_buf
+
+
+# Gerar a agenda e gráfico quando o botão for pressionado
 if st.button("Calcular Agenda"):
     if banca_inicial > 0 and meta_desejada > 0 and dias_para_meta > 0:
         porcentagem_diaria = (meta_desejada / banca_inicial) ** (1 / dias_para_meta) - 1
         stop_loss = banca_inicial * 0.20
 
         banca_atual = banca_inicial
-        bancas = [banca_atual]  # Lista para o gráfico
+        banca_evolucao = []
         for dia in range(1, dias_para_meta + 1):
             ganho_diario = banca_atual * porcentagem_diaria
             banca_atual += ganho_diario
             necessidade_dia = round(banca_atual * porcentagem_diaria, 2)
             banca_evolucao.append(f"**Dia {dia}:** {formatar_em_cru(banca_atual)} - Necessário: {formatar_em_cru(necessidade_dia)}")
-            bancas.append(banca_atual)
 
         st.success("Aqui está sua agenda de gerenciamento:")
         st.write(f"**Porcentagem Diária Necessária:** {porcentagem_diaria * 100:.2f}%")
@@ -80,81 +143,50 @@ if st.button("Calcular Agenda"):
         for linha in banca_evolucao:
             st.write(linha)
 
-        # Geração do gráfico
-        plt.figure(facecolor="#0d1216")
-        plt.plot(range(dias_para_meta + 1), bancas, marker='o', linestyle='-', color='#ff4b4b')  # Linha avermelhada
-        plt.title("Evolução da Banca", color="white", fontsize=14, fontweight="bold")  # Título em branco
-        plt.xlabel("Dias", color="white", fontweight="bold")  # Texto eixo X em branco
-        plt.ylabel("Banca (R$)", color="white", fontweight="bold")  # Texto eixo Y em branco
-        plt.grid(True, color="white")
-        plt.gca().set_facecolor('#0d1216')
-        plt.tick_params(colors='white')  # Ticks em branco
-        plt.gca().spines['bottom'].set_color('white')  # Eixo inferior em branco
-        plt.gca().spines['left'].set_color('white')  # Eixo esquerdo em branco
-        grafico_buffer = BytesIO()
-        plt.savefig(grafico_buffer, format="png", transparent=False)  # Remove transparência para fundo escuro
-        st.pyplot(plt)
-        grafico_buffer.seek(0)  # Resetar o buffer para leitura posterior
-        grafico_gerado = True
+        # Gerar gráfico
+        img_buf = gerar_grafico(banca_inicial, meta_desejada, dias_para_meta)
+        st.image(img_buf)
+
     else:
         st.error("Por favor, insira valores válidos para todos os campos!")
 
-# Função para exportar para PDF
+
+# Função para exportar PDF com gráfico
 def exportar_pdf():
-    buffer = BytesIO()
-    pdf = SimpleDocTemplate(buffer, pagesize=letter)
-    elementos = []
+    img_buf = gerar_grafico(banca_inicial, meta_desejada, dias_para_meta)
 
-    # Estilos
-    styles = getSampleStyleSheet()
-    style_normal = styles["Normal"]
-    style_bold = styles["Heading2"]
-    style_bold.textColor = colors.black  # Texto preto
-    style_normal.textColor = colors.black  # Texto preto
+    pdf_buffer = io.BytesIO()
+    c = canvas.Canvas(pdf_buffer, pagesize=letter)
 
-    # Adicionar textos
-    elementos.append(Paragraph("Calculadora de Metas - Trader Pedro", style_bold))
-    elementos.append(Spacer(1, 12))
-    elementos.append(Paragraph(f"Banca Inicial: R$ {banca_inicial:.2f}", style_normal))
-    elementos.append(Paragraph(f"Meta Total: R$ {meta_desejada:.2f}", style_normal))
-    elementos.append(Paragraph(f"Dias para atingir a meta: {dias_para_meta}", style_normal))
-    elementos.append(Spacer(1, 12))
+    # Definir fontes
+    c.setFont("Helvetica", 10)
+    c.setFillColor(colors.black)
 
-    # Adicionar a agenda
+    # Título do PDF
+    c.drawString(200, 750, "Agenda de Metas - Trader Pedro")
+
+    # Escrever a agenda
+    y_position = 700
     for linha in banca_evolucao:
-        elementos.append(Paragraph(linha, style_normal))
+        c.drawString(50, y_position, linha)
+        y_position -= 20
 
-    # Adicionar o gráfico como imagem
-    if grafico_gerado:
-        grafico_buffer.seek(0)
-        elementos.append(Spacer(1, 12))
-        elementos.append(Image(grafico_buffer, width=500, height=300))
+    # Adicionar gráfico no PDF
+    img_buf.seek(0)
+    c.drawImage(img_buf, 50, 300, width=500, height=300)
 
-    # Construir o PDF
-    pdf.build(elementos, onFirstPage=lambda c, d: c.setFillColor(colors.black), onLaterPages=lambda c, d: c.setFillColor(colors.black))
+    # Salvar o PDF
+    c.save()
+    pdf_buffer.seek(0)
+    return pdf_buffer
 
-    # Retornar o buffer
-    buffer.seek(0)
-    return buffer
 
-# Verificação para garantir que o PDF seja gerado corretamente
-if grafico_gerado:
-    st.markdown("---")
+# Botão para exportar PDF
+if st.button("Exportar Agenda para PDF"):
     pdf_buffer = exportar_pdf()
-
-    # Garantir que o arquivo seja baixado corretamente
-    st.download_button("Baixar Agenda em PDF", data=pdf_buffer, file_name="agenda_trader_pedro.pdf", mime="application/pdf")
-
-# Links finais
-col1, col2 = st.columns(2)
-with col1:
-    st.markdown(
-        '<a href="https://trade.polariumbroker.com/register?aff=436446&aff_model=revenue&afftrack=" target="_blank" style="background-color: #ffffff; color: #0d1216; font-weight: bold; border: none; border-radius: 5px; padding: 10px 15px; font-size: 16px; text-decoration: none; text-align: center; display: inline-block; transition: all 0.3s;">Crie sua conta na Polarium Broker</a>',
-        unsafe_allow_html=True
-    )
-
-with col2:
-    st.markdown(
-        '<a href="https://br.tradingview.com/pricing/?share_your_love=traderpedrobr" target="_blank" style="background-color: #ffffff; color: #0d1216; font-weight: bold; border: none; border-radius: 5px; padding: 10px 15px; font-size: 16px; text-decoration: none; text-align: center; display: inline-block; transition: all 0.3s;">Crie sua conta no TradingView</a>',
-        unsafe_allow_html=True
+    st.download_button(
+        label="Clique para baixar o PDF",
+        data=pdf_buffer,
+        file_name="agenda_de_metas.pdf",
+        mime="application/pdf"
     )
