@@ -53,8 +53,6 @@ st.markdown("""
         .stButton>button:hover {
             transform: scale(1.05);  /* Aumenta o botão */
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Adiciona sombra */
-            background-color: #ff4b4b; /* Muda a cor de fundo */
-            color: white; /* Muda a cor do texto */
         }
 
         /* Botões personalizados */
@@ -62,6 +60,7 @@ st.markdown("""
             background-color: #0d1216;
             color: #ffffff;
             border: 2px solid #00b140; /* Borda verde */
+            font-weight: bold;
         }
         .stButton>button#btn-analise-abundante:hover {
             background-color: #0d1216;
@@ -73,6 +72,7 @@ st.markdown("""
             background-color: #0d1216;
             color: #ffffff;
             border: 2px solid #ff4b4b; /* Borda vermelha */
+            font-weight: bold;
         }
         .stButton>button#btn-create-polarium:hover {
             background-color: #0d1216;
@@ -84,6 +84,7 @@ st.markdown("""
             background-color: #0d1216;
             color: #ffffff;
             border: 2px solid #ff4b4b; /* Borda vermelha */
+            font-weight: bold;
         }
         .stButton>button#btn-tradingview:hover {
             background-color: #0d1216;
@@ -204,14 +205,14 @@ with col2:
         '<a href="https://br.tradingview.com/pricing/?share_your_love=traderpedrobr" target="_blank" '
         'style="background-color: #0d1216; color: #ffffff; font-weight: bold; border: 2px solid #ff4b4b; '
         'border-radius: 5px; padding: 10px 15px; font-size: 16px; text-decoration: none; text-align: center; '
-        'display: inline-block;" id="btn-tradingview">Crie sua conta no TradingView</a>',
+        'display: inline-block;" id="btn-tradingview">Acesse TradingView</a>',
         unsafe_allow_html=True
     )
 
-with col1:
+with col2:
     st.markdown(
         '<a href="https://drive.google.com/file/d/1H_VNOgYSRNnsGIEj_g2B3xwQxSa-Zu4d/view?usp=sharing" target="_blank" '
-        'style="background-color: #0d1216; color: #ffffff; font-weight: bold; border: 2px solid #ff4b4b; '
+        'style="background-color: #0d1216; color: #ffffff; font-weight: bold; border: 2px solid #00b140; '
         'border-radius: 5px; padding: 10px 15px; font-size: 16px; text-decoration: none; text-align: center; '
         'display: inline-block;" id="btn-analise-abundante">Abrir Análise Abundante</a>',
         unsafe_allow_html=True
