@@ -211,7 +211,7 @@ with col2:
 with col1:
     st.markdown(
         '<a href="https://drive.google.com/file/d/1H_VNOgYSRNnsGIEj_g2B3xwQxSa-Zu4d/view?usp=sharing" target="_blank" '
-        'style="background-color: #0d1216; color: #ffffff; font-weight: bold; border: 2px solid #00b140; '
+        'style="background-color: #0d1216; color: #ffffff; font-weight: bold; border: 2px solid #ff4b4b; '
         'border-radius: 5px; padding: 10px 15px; font-size: 16px; text-decoration: none; text-align: center; '
         'display: inline-block;" id="btn-analise-abundante">Abrir Análise Abundante</a>',
         unsafe_allow_html=True
