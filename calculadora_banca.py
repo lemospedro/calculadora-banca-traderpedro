@@ -10,77 +10,40 @@ from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Image
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.pdfbase import pdfmetrics
 
-# Função para alternar entre os temas
-def tema_escuro_ou_claro():
-    tema = st.selectbox("Escolha o tema:", ["Escuro", "Claro"])
-    return tema
+# CSS global
+st.markdown("""
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
 
-# Definindo o tema selecionado
-theme = tema_escuro_ou_claro()
+        /* Título */
+        .stApp h1 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 48px;
+            text-align: center;
+            color: #ff4b4b;
+            margin-bottom: 50px;
+        }
 
-# Adicionando CSS para alternância entre temas
-if theme == "Escuro":
-    st.markdown("""
-        <style>
-            /* Tema Escuro */
-            body {
-                background-color: #0d1216;
-                color: white;
-            }
-            h1, h2, h3, p, label {
-                color: white;
-            }
-            .stButton>button {
-                background-color: #ff4b4b;
-                color: #ffffff !important;
-                font-weight: bold;
-                border-radius: 5px;
-                padding: 10px 15px;
-            }
-            .stButton>button:hover {
-                background-color: #e63e3e;
-            }
-            .stError {
-                color: #ff4b4b !important;
-            }
-            .stSelectbox select, .stTextInput input {
-                background-color: #2c2f37;
-                color: white;
-            }
-        </style>
-    """, unsafe_allow_html=True)
-else:
-    st.markdown("""
-        <style>
-            /* Tema Claro */
-            body {
-                background-color: #f0f0f0;  /* Cor de fundo clara */
-                color: black;
-            }
-            h1, h2, h3, p, label {
-                color: black;
-            }
-            .stButton>button {
-                background-color: #4CAF50;
-                color: #ffffff !important;
-                font-weight: bold;
-                border-radius: 5px;
-                padding: 10px 15px;
-            }
-            .stButton>button:hover {
-                background-color: #45a049;
-            }
-            .stError {
-                color: #28a745 !important;
-            }
-            .stSelectbox select, .stTextInput input {
-                background-color: #ffffff;
-                color: black;
-            }
-        </style>
-    """, unsafe_allow_html=True)
+        /* Fundo da aplicação em preto */
+        .stApp {
+            background-color: #0d1216;
+        }
 
-# Título principal com fonte
+        /* Labels dos inputs estilizados */
+        .stNumberInput label, .stTextInput label {
+            font-family: 'Helvetica', !important;
+            font-weight: bold;
+            color: #ffffff !important; /* Cor branca */
+        }
+
+        /* Aplicando Helvetica em todo o texto */
+        * {
+            font-family: 'Helvetica', sans-serif;
+        }
+    </style>
+""", unsafe_allow_html=True)
+
+# Título principal com fonte Bebas Neue
 st.markdown("""
     <h1>Calculadora de Metas - Trader Pedro</h1>
 """, unsafe_allow_html=True)
@@ -118,16 +81,16 @@ if st.button("Calcular Agenda"):
             st.write(linha)
 
         # Geração do gráfico
-        plt.figure(facecolor="#0d1216" if theme == "Escuro" else "#f0f0f0")  # Cor do fundo do gráfico
-        plt.plot(range(dias_para_meta + 1), bancas, marker='o', linestyle='-', color='#ff4b4b' if theme == "Escuro" else '#4CAF50')  # Linha avermelhada ou verde
-        plt.title("Evolução da Banca", color="white" if theme == "Escuro" else "black", fontsize=14, fontweight="bold")  # Título em branco ou preto
-        plt.xlabel("Dias", color="white" if theme == "Escuro" else "black", fontweight="bold")  # Texto eixo X em branco ou preto
-        plt.ylabel("Banca (R$)", color="white" if theme == "Escuro" else "black", fontweight="bold")  # Texto eixo Y em branco ou preto
-        plt.grid(True, color="white" if theme == "Escuro" else "black")
-        plt.gca().set_facecolor('#0d1216' if theme == "Escuro" else "#f0f0f0")  # Fundo do gráfico em preto ou claro
-        plt.tick_params(colors='white' if theme == "Escuro" else 'black')  # Ticks em branco ou preto
-        plt.gca().spines['bottom'].set_color('white' if theme == "Escuro" else 'black')  # Eixo inferior em branco ou preto
-        plt.gca().spines['left'].set_color('white' if theme == "Escuro" else 'black')  # Eixo esquerdo em branco ou preto
+        plt.figure(facecolor="#0d1216")
+        plt.plot(range(dias_para_meta + 1), bancas, marker='o', linestyle='-', color='#ff4b4b')  # Linha avermelhada
+        plt.title("Evolução da Banca", color="white", fontsize=14, fontweight="bold")  # Título em branco
+        plt.xlabel("Dias", color="white", fontweight="bold")  # Texto eixo X em branco
+        plt.ylabel("Banca (R$)", color="white", fontweight="bold")  # Texto eixo Y em branco
+        plt.grid(True, color="white")
+        plt.gca().set_facecolor('#0d1216')
+        plt.tick_params(colors='white')  # Ticks em branco
+        plt.gca().spines['bottom'].set_color('white')  # Eixo inferior em branco
+        plt.gca().spines['left'].set_color('white')  # Eixo esquerdo em branco
         grafico_buffer = BytesIO()
         plt.savefig(grafico_buffer, format="png", transparent=False)  # Remove transparência para fundo escuro
         st.pyplot(plt)
@@ -186,11 +149,12 @@ if grafico_gerado:
 col1, col2 = st.columns(2)
 with col1:
     st.markdown(
-        '<a href="https://trade.polariumbroker.com" target="_blank" style="background-color: #ff4b4b; color: #ffffff; font-weight: bold; border: none; border-radius: 5px; padding: 10px 15px; font-size: 16px; text-decoration: none; text-align: center; display: inline-block; transition: all 0.3s;">Crie sua conta na Polarium Broker</a>',
+        '<a href="https://trade.polariumbroker.com/register?aff=436446&aff_model=revenue&afftrack=" target="_blank" style="background-color: #ffffff; color: #0d1216; font-weight: bold; border: none; border-radius: 5px; padding: 10px 15px; font-size: 16px; text-decoration: none; text-align: center; display: inline-block; transition: all 0.3s;">Crie sua conta na Polarium Broker</a>',
         unsafe_allow_html=True
     )
+
 with col2:
     st.markdown(
-        '<a href="https://www.tradingview.com/" target="_blank" style="background-color: #ff4b4b; color: #ffffff; font-weight: bold; border: none; border-radius: 5px; padding: 10px 15px; font-size: 16px; text-decoration: none; text-align: center; display: inline-block; transition: all 0.3s;">Acesse o TradingView</a>',
+        '<a href="https://br.tradingview.com/pricing/?share_your_love=traderpedrobr" target="_blank" style="background-color: #ffffff; color: #0d1216; font-weight: bold; border: none; border-radius: 5px; padding: 10px 15px; font-size: 16px; text-decoration: none; text-align: center; display: inline-block; transition: all 0.3s;">Crie sua conta no TradingView</a>',
         unsafe_allow_html=True
     )
