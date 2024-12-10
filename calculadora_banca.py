@@ -39,8 +39,8 @@ st.markdown("""
             text-shadow: 0 0 10px rgba(255, 75, 75, 0.6);
         }
 
-        /* Botões */
-        a {
+        /* Botões Gerais */
+        a, button {
             background-color: #0d1216;
             border: 2px solid #ff4b4b;
             color: #ffffff !important;
@@ -53,15 +53,17 @@ st.markdown("""
             display: inline-block;
             transition: all 0.3s ease-in-out;
             box-shadow: 0 0 0 transparent;
+            cursor: pointer;
         }
 
-        a:hover {
+        a:hover, button:hover {
             background-color: #1a1f25;
             color: #ffcccb;
             transform: scale(1.05);
             box-shadow: 0 0 10px rgba(255, 75, 75, 0.5);
         }
 
+        /* Botão específico do Análise Abundante */
         a.analise-abundante {
             border-color: #00c418;
         }
@@ -81,6 +83,29 @@ dias_para_meta = st.number_input("**Tempo para atingir a meta (dias):**", min_va
 # Função de cálculo e exibição de resultados
 banca_evolucao = []
 grafico_gerado = False
+
+# Adicionando animação ao botão "Calcular Agenda"
+st.markdown("""
+    <style>
+        div.stButton > button {
+            background-color: #0d1216;
+            border: 2px solid #ff4b4b;
+            color: white;
+            font-weight: bold;
+            font-size: 16px;
+            border-radius: 5px;
+            transition: all 0.3s ease-in-out;
+            cursor: pointer;
+        }
+
+        div.stButton > button:hover {
+            background-color: #1a1f25;
+            color: #ffcccb;
+            transform: scale(1.05);
+            box-shadow: 0 0 10px rgba(255, 75, 75, 0.5);
+        }
+    </style>
+""", unsafe_allow_html=True)
 
 if st.button("Calcular Agenda"):
     if banca_inicial > 0 and meta_desejada > 0 and dias_para_meta > 0:
