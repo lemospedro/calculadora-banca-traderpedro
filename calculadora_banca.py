@@ -138,12 +138,13 @@ if grafico_gerado:
 # Criando uma coluna para os três botões
 st.markdown("<br>", unsafe_allow_html=True)
 
-# Botões alinhados verticalmente
+# Botões alinhados verticalmente e com texto centralizado
 st.markdown(
     '<a href="https://trade.polariumbroker.com/register?aff=436446&aff_model=revenue&afftrack=" target="_blank" '
     'style="background-color: #0d1216; color: #ffffff; font-weight: bold; border: 2px solid; '
     'border-image: linear-gradient(90deg, #ff4b4b, #ff914d, #ffcc00) 1; '
-    'border-radius: 12px; padding: 10px 15px; font-size: 16px; text-decoration: none; display: block; margin-bottom: 10px;">'
+    'border-radius: 12px; padding: 10px 15px; font-size: 16px; text-decoration: none; display: inline-block; '
+    'margin-bottom: 10px; text-align: center;">'
     'Abrir Polarium Broker</a>',
     unsafe_allow_html=True
 )
@@ -152,7 +153,8 @@ st.markdown(
     '<a href="https://www.tradingview.com" target="_blank" '
     'style="background-color: #0d1216; color: #ffffff; font-weight: bold; border: 2px solid; '
     'border-image: linear-gradient(90deg, #ff4b4b, #ff914d, #ffcc00) 1; '
-    'border-radius: 12px; padding: 10px 15px; font-size: 16px; text-decoration: none; display: block; margin-bottom: 10px;">'
+    'border-radius: 12px; padding: 10px 15px; font-size: 16px; text-decoration: none; display: inline-block; '
+    'margin-bottom: 10px; text-align: center;">'
     'Abrir TradingView</a>',
     unsafe_allow_html=True
 )
@@ -161,7 +163,8 @@ st.markdown(
     '<a href="https://drive.google.com/file/d/1H_VNOgYSRNnsGIEj_g2B3xwQxSa-Zu4d/view?usp=sharing" target="_blank" '
     'style="background-color: #0d1216; color: #ffffff; font-weight: bold; border: 2px solid; '
     'border-image: linear-gradient(90deg, #14b802, #56d859, #a4e34d) 1; '
-    'border-radius: 12px; padding: 10px 15px; font-size: 16px; text-decoration: none; display: block;">'
+    'border-radius: 12px; padding: 10px 15px; font-size: 16px; text-decoration: none; display: inline-block; '
+    'text-align: center;">'
     'Baixar - Análise Abundante</a>',
     unsafe_allow_html=True
 )
