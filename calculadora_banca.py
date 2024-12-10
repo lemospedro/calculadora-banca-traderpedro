@@ -41,7 +41,6 @@ st.markdown("""
             align-items: center;
             flex-direction: column;
             gap: 10px;
-            height: 100vh; /* Tira o espaço sobrando no fundo */
         }
     </style>
 """, unsafe_allow_html=True)
