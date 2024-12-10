@@ -83,14 +83,14 @@ if st.button("Calcular Agenda"):
         # Geração do gráfico
         plt.figure(facecolor="#0d1216")
         plt.plot(range(dias_para_meta + 1), bancas, marker='o', linestyle='-', color='#ff4b4b')  # Linha avermelhada
-        plt.title("Evolução da Banca", color="white", fontsize=14, fontweight="bold")
-        plt.xlabel("Dias", color="white", fontweight="bold")
-        plt.ylabel("Banca (R$)", color="white", fontweight="bold")
+        plt.title("Evolução da Banca", color="black", fontsize=14, fontweight="bold")  # Título em preto
+        plt.xlabel("Dias", color="black", fontweight="bold")  # Texto eixo X em preto
+        plt.ylabel("Banca (R$)", color="black", fontweight="bold")  # Texto eixo Y em preto
         plt.grid(True)
         plt.gca().set_facecolor('#0d1216')
-        plt.tick_params(colors='white')
-        plt.gca().spines['bottom'].set_color('white')
-        plt.gca().spines['left'].set_color('white')
+        plt.tick_params(colors='black')  # Ticks em preto
+        plt.gca().spines['bottom'].set_color('black')  # Eixo inferior em preto
+        plt.gca().spines['left'].set_color('black')  # Eixo esquerdo em preto
         grafico_buffer = BytesIO()
         plt.savefig(grafico_buffer, format="png", transparent=True)
         st.pyplot(plt)
