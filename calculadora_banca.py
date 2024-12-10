@@ -29,9 +29,18 @@ st.markdown("""
             font-family: 'Helvetica', sans-serif;
         }
 
-        /* Estilo dos botões com bordas arredondadas */
+        /* Estilo dos botões com bordas arredondas */
         .css-1emrehy.edgvbvh3 {
             border-radius: 12px;
+        }
+
+        /* Centralizando os botões */
+        .center-buttons {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            gap: 10px;
         }
     </style>
 """, unsafe_allow_html=True)
@@ -138,6 +147,9 @@ if grafico_gerado:
 # Criando uma coluna para os três botões
 st.markdown("<br>", unsafe_allow_html=True)
 
+# Centralizando os botões com a classe "center-buttons"
+st.markdown('<div class="center-buttons">', unsafe_allow_html=True)
+
 # Botões alinhados verticalmente e com texto centralizado
 st.markdown(
     '<a href="https://trade.polariumbroker.com/register?aff=436446&aff_model=revenue&afftrack=" target="_blank" '
@@ -168,3 +180,6 @@ st.markdown(
     'Baixar - Análise Abundante</a>',
     unsafe_allow_html=True
 )
+
+# Fechando a div de centralização
+st.markdown('</div>', unsafe_allow_html=True)
