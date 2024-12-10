@@ -10,123 +10,38 @@ from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Image
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.pdfbase import pdfmetrics
 
-# Seleção de tema
-theme = st.selectbox("Escolha o tema:", ["Escuro", "Claro"])
+# CSS global
+st.markdown("""
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
 
-# CSS global com base no tema escolhido
-if theme == "Escuro":
-    st.markdown("""
-        <style>
-            @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+        /* Título */
+        .stApp h1 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 48px;
+            text-align: center;
+            color: #ff4b4b;
+            margin-bottom: 50px;
+        }
 
-            /* Título */
-            .stApp h1 {
-                font-family: 'Bebas Neue', sans-serif;
-                font-size: 48px;
-                text-align: center;
-                color: #ff4b4b;
-                margin-bottom: 50px;
-            }
+        /* Fundo da aplicação em preto */
+        .stApp {
+            background-color: #0d1216;
+        }
 
-            /* Fundo da aplicação em preto */
-            .stApp {
-                background-color: #0d1216;
-            }
+        /* Labels dos inputs estilizados */
+        .stNumberInput label, .stTextInput label {
+            font-family: 'Helvetica', !important;
+            font-weight: bold;
+            color: #ffffff !important; /* Cor branca */
+        }
 
-            /* Labels dos inputs estilizados */
-            .stNumberInput label, .stTextInput label {
-                font-family: 'Helvetica', !important;
-                font-weight: bold;
-                color: #ffffff !important; /* Cor branca */
-            }
-
-            /* Seleção do tema */
-            .stSelectbox label {
-                font-family: 'Helvetica', sans-serif;
-                color: #ffffff !important;
-            }
-
-            /* Botões */
-            .stButton>button {
-                background-color: #ff4b4b;
-                color: #ffffff !important;
-                font-weight: bold;
-                border-radius: 5px;
-                padding: 10px 15px;
-            }
-
-            .stButton>button:hover {
-                background-color: #e63e3e;
-            }
-
-            /* Mensagens de erro */
-            .stError {
-                color: #ff4b4b !important; /* Mensagens de erro em vermelho */
-            }
-
-            /* Aplicando Helvetica em todo o texto */
-            * {
-                font-family: 'Helvetica', sans-serif;
-            }
-        </style>
-    """, unsafe_allow_html=True)
-else:
-    st.markdown("""
-        <style>
-            @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
-
-            /* Título */
-            .stApp h1 {
-                font-family: 'Bebas Neue', sans-serif;
-                font-size: 48px;
-                text-align: center;
-                color: #ff4b4b;
-                margin-bottom: 50px;
-            }
-
-            /* Fundo da aplicação em branco */
-            .stApp {
-                background-color: #f8f8f8;
-            }
-
-            /* Labels dos inputs estilizados */
-            .stNumberInput label, .stTextInput label {
-                font-family: 'Helvetica', !important;
-                font-weight: bold;
-                color: #000000 !important; /* Cor preta */
-            }
-
-            /* Seleção do tema */
-            .stSelectbox label {
-                font-family: 'Helvetica', sans-serif;
-                color: #000000 !important;
-            }
-
-            /* Botões */
-            .stButton>button {
-                background-color: #f8f8f8;
-                color: #0d1216 !important;
-                font-weight: bold;
-                border-radius: 5px;
-                padding: 10px 15px;
-                border: 2px solid #0d1216;
-            }
-
-            .stButton>button:hover {
-                background-color: #e0e0e0;
-            }
-
-            /* Mensagens de erro */
-            .stError {
-                color: #ff4b4b !important; /* Mensagens de erro em vermelho */
-            }
-
-            /* Aplicando Helvetica em todo o texto */
-            * {
-                font-family: 'Helvetica', sans-serif;
-            }
-        </style>
-    """, unsafe_allow_html=True)
+        /* Aplicando Helvetica em todo o texto */
+        * {
+            font-family: 'Helvetica', sans-serif;
+        }
+    </style>
+""", unsafe_allow_html=True)
 
 # Título principal com fonte Bebas Neue
 st.markdown("""
@@ -166,16 +81,16 @@ if st.button("Calcular Agenda"):
             st.write(linha)
 
         # Geração do gráfico
-        plt.figure(facecolor="#0d1216" if theme == "Escuro" else "#f8f8f8")
+        plt.figure(facecolor="#0d1216")
         plt.plot(range(dias_para_meta + 1), bancas, marker='o', linestyle='-', color='#ff4b4b')  # Linha avermelhada
-        plt.title("Evolução da Banca", color="white" if theme == "Escuro" else "black", fontsize=14, fontweight="bold")  # Título em branco ou preto
-        plt.xlabel("Dias", color="white" if theme == "Escuro" else "black", fontweight="bold")  # Texto eixo X em branco ou preto
-        plt.ylabel("Banca (R$)", color="white" if theme == "Escuro" else "black", fontweight="bold")  # Texto eixo Y em branco ou preto
-        plt.grid(True, color="white" if theme == "Escuro" else "black")
-        plt.gca().set_facecolor('#0d1216' if theme == "Escuro" else "#f8f8f8")
-        plt.tick_params(colors='white' if theme == "Escuro" else 'black')  # Ticks em branco ou preto
-        plt.gca().spines['bottom'].set_color('white' if theme == "Escuro" else 'black')  # Eixo inferior em branco ou preto
-        plt.gca().spines['left'].set_color('white' if theme == "Escuro" else 'black')  # Eixo esquerdo em branco ou preto
+        plt.title("Evolução da Banca", color="white", fontsize=14, fontweight="bold")  # Título em branco
+        plt.xlabel("Dias", color="white", fontweight="bold")  # Texto eixo X em branco
+        plt.ylabel("Banca (R$)", color="white", fontweight="bold")  # Texto eixo Y em branco
+        plt.grid(True, color="white")
+        plt.gca().set_facecolor('#0d1216')
+        plt.tick_params(colors='white')  # Ticks em branco
+        plt.gca().spines['bottom'].set_color('white')  # Eixo inferior em branco
+        plt.gca().spines['left'].set_color('white')  # Eixo esquerdo em branco
         grafico_buffer = BytesIO()
         plt.savefig(grafico_buffer, format="png", transparent=False)  # Remove transparência para fundo escuro
         st.pyplot(plt)
@@ -234,11 +149,12 @@ if grafico_gerado:
 col1, col2 = st.columns(2)
 with col1:
     st.markdown(
-        '<a href="https://trade.polariumbroker.com" target="_blank" style="background-color: #ff4b4b; color: #ffffff; font-weight: bold; border: none; border-radius: 5px; padding: 10px 15px; font-size: 16px; text-decoration: none; text-align: center; display: inline-block; transition: all 0.3s;">Crie sua conta na Polarium Broker</a>',
+        '<a href="https://trade.polariumbroker.com/register?aff=436446&aff_model=revenue&afftrack=" target="_blank" style="background-color: #ffffff; color: #0d1216; font-weight: bold; border: none; border-radius: 5px; padding: 10px 15px; font-size: 16px; text-decoration: none; text-align: center; display: inline-block; transition: all 0.3s;">Crie sua conta na Polarium Broker</a>',
         unsafe_allow_html=True
     )
+
 with col2:
     st.markdown(
-        '<a href="https://www.tradingview.com/" target="_blank" style="background-color: #ff4b4b; color: #ffffff; font-weight: bold; border: none; border-radius: 5px; padding: 10px 15px; font-size: 16px; text-decoration: none; text-align: center; display: inline-block; transition: all 0.3s;">Acesse o TradingView</a>',
+        '<a href="https://br.tradingview.com/pricing/?share_your_love=traderpedrobr" target="_blank" style="background-color: #ffffff; color: #0d1216; font-weight: bold; border: none; border-radius: 5px; padding: 10px 15px; font-size: 16px; text-decoration: none; text-align: center; display: inline-block; transition: all 0.3s;">Crie sua conta no TradingView</a>',
         unsafe_allow_html=True
     )
