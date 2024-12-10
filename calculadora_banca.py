@@ -28,6 +28,11 @@ st.markdown("""
         * {
             font-family: 'Helvetica', sans-serif;
         }
+
+        /* Estilo dos botões com bordas arredondadas */
+        .button-custom {
+            border-radius: 12px;
+        }
     </style>
 """, unsafe_allow_html=True)
 
@@ -136,7 +141,7 @@ with col1:
         '<a href="https://trade.polariumbroker.com/register?aff=436446&aff_model=revenue&afftrack=" target="_blank" '
         'style="background-color: #0d1216; color: #ffffff; font-weight: bold; border: 2px solid; '
         'border-image: linear-gradient(90deg, #ff4b4b, #ff914d, #ffcc00) 1; '
-        'border-radius: 5px; padding: 10px 15px; font-size: 16px; text-decoration: none;">Abrir Polarium Broker</a>',
+        'border-radius: 12px; padding: 10px 15px; font-size: 16px; text-decoration: none;">Abrir Polarium Broker</a>',
         unsafe_allow_html=True
     )
 
@@ -148,7 +153,7 @@ with col2:
         '<a href="https://www.tradingview.com" target="_blank" '
         'style="background-color: #0d1216; color: #ffffff; font-weight: bold; border: 2px solid; '
         'border-image: linear-gradient(90deg, #ff4b4b, #ff914d, #ffcc00) 1; '
-        'border-radius: 5px; padding: 10px 15px; font-size: 16px; text-decoration: none;">Abrir TradingView</a>',
+        'border-radius: 12px; padding: 10px 15px; font-size: 16px; text-decoration: none;">Abrir TradingView</a>',
         unsafe_allow_html=True
     )
 
@@ -159,6 +164,6 @@ st.markdown(
     '<a href="https://drive.google.com/file/d/1H_VNOgYSRNnsGIEj_g2B3xwQxSa-Zu4d/view?usp=sharing" target="_blank" '
     'style="background-color: #0d1216; color: #ffffff; font-weight: bold; border: 2px solid; '
     'border-image: linear-gradient(90deg, #14b802, #56d859, #a4e34d) 1; '
-    'border-radius: 5px; padding: 10px 15px; font-size: 16px; text-decoration: none;">Baixar - Análise Abundante</a>',
+    'border-radius: 12px; padding: 10px 15px; font-size: 16px; text-decoration: none;">Baixar - Análise Abundante</a>',
     unsafe_allow_html=True
 )
