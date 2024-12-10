@@ -1,6 +1,8 @@
 import streamlit as st
 import matplotlib.pyplot as plt
+from reportlab.pdfgen import canvas
 import locale
+import os
 
 # Definir o locale para garantir a formatação em português
 # locale.setlocale(locale.LC_ALL, 'pt_BR.UTF-8')
@@ -52,6 +54,29 @@ dias_para_meta = st.number_input("**Tempo para atingir a meta (dias):**", min_va
 def formatar_em_cru(valor):
     return f"{valor:,.2f}".replace(',', 'X').replace('.', ',').replace('X', '.')
 
+# Função para gerar PDF
+def gerar_pdf(banca_evolucao, porcentagem_diaria, stop_loss):
+    pdf_file = "agenda_de_metas.pdf"
+    c = canvas.Canvas(pdf_file)
+    c.setFont("Helvetica-Bold", 16)
+    c.drawString(200, 800, "Agenda de Metas - Trader Pedro")
+
+    c.setFont("Helvetica", 12)
+    c.drawString(50, 770, f"Porcentagem Diária Necessária: {porcentagem_diaria * 100:.2f}%")
+    c.drawString(50, 750, f"Stop Loss Diário: R$ {formatar_em_cru(stop_loss)}")
+
+    y = 720
+    c.setFont("Helvetica", 10)
+    for linha in banca_evolucao:
+        c.drawString(50, y, linha.replace("**", "").replace("R$", "").strip())
+        y -= 15
+        if y < 50:  # Adiciona uma nova página se necessário
+            c.showPage()
+            y = 770
+
+    c.save()
+    return pdf_file
+
 # Botão de cálculo
 if st.button("Calcular Agenda"):
     if banca_inicial > 0 and meta_desejada > 0 and dias_para_meta > 0:
@@ -66,7 +91,8 @@ if st.button("Calcular Agenda"):
             ganho_diario = banca_atual * porcentagem_diaria
             banca_atual += ganho_diario
             necessidade_dia = round(banca_atual * porcentagem_diaria, 2)
-            banca_evolucao.append(f"**Dia {dia}:** {formatar_em_cru(banca_atual)} - Necessário: {formatar_em_cru(necessidade_dia)}")
+            linha = f"**Dia {dia}:** {formatar_em_cru(banca_atual)} - Necessário: {formatar_em_cru(necessidade_dia)}"
+            banca_evolucao.append(linha)
             valores_banca.append(banca_atual)
 
         st.success("Aqui está sua agenda de gerenciamento:")
@@ -79,8 +105,8 @@ if st.button("Calcular Agenda"):
         fig, ax = plt.subplots()
 
         # Definir a cor do fundo
-        fig.patch.set_facecolor('#0d1216')  # Fundo do gráfico principal
-        ax.set_facecolor('#0d1216')         # Fundo da área do gráfico
+        fig.patch.set_facecolor('#0d1216')
+        ax.set_facecolor('#0d1216')
 
         # Configurar a linha e os pontos
         ax.plot(range(dias_para_meta + 1), valores_banca, marker='o', linestyle='-', color='#ff4b4b', label="Banca (R$)")
@@ -91,18 +117,20 @@ if st.button("Calcular Agenda"):
         ax.set_ylabel("Banca (R$)", color='#FFFFFF', fontsize=12)
 
         # Personalizar os eixos
-        ax.tick_params(axis='x', colors='#FFFFFF')  # Cor dos números do eixo X
-        ax.tick_params(axis='y', colors='#FFFFFF')  # Cor dos números do eixo Y
+        ax.tick_params(axis='x', colors='#FFFFFF')
+        ax.tick_params(axis='y', colors='#FFFFFF')
 
-        # Adicionar uma grade suave e colorida
         ax.grid(color='#444444', linestyle='--', linewidth=0.5)
-
-        # Adicionar a legenda
         ax.legend(facecolor='#0d1216', edgecolor='None', labelcolor='white')
-
-        # Exibir o gráfico no Streamlit
         st.pyplot(fig)
 
+        # Botão para exportar PDF
+        st.write("---")
+        st.write("### Exportar Agenda para PDF:")
+        pdf_file = gerar_pdf(banca_evolucao, porcentagem_diaria, stop_loss)
+        with open(pdf_file, "rb") as file:
+            st.download_button(label="📥 Baixar Agenda em PDF", data=file, file_name="agenda_de_metas.pdf", mime="application/pdf")
+        os.remove(pdf_file)
     else:
         st.error("Por favor, insira valores válidos para todos os campos!")
 
