@@ -61,7 +61,7 @@ if theme == "Escuro":
 
             /* Mensagens de erro */
             .stError {
-                color: #ffffff !important;
+                color: #ff4b4b !important; /* Mensagens de erro em vermelho */
             }
 
             /* Aplicando Helvetica em todo o texto */
@@ -118,12 +118,7 @@ else:
 
             /* Mensagens de erro */
             .stError {
-                color: #ff4b4b !important;  /* Cor vermelha para mensagens de erro no modo claro */
-            }
-
-            /* Corrigir texto de erro */
-            .stError div {
-                color: #ff4b4b !important;  /* Garantir que o texto do erro também fique visível */
+                color: #ff4b4b !important; /* Mensagens de erro em vermelho */
             }
 
             /* Aplicando Helvetica em todo o texto */
@@ -239,7 +234,7 @@ if grafico_gerado:
 col1, col2 = st.columns(2)
 with col1:
     st.markdown(
-        '<a href="https://trade.polariumbroker.com/register?aff=436446&aff_model=revenue&afftrack=" target="_blank" style="background-color: #ff4b4b; color: #ffffff; font-weight: bold; border: none; border-radius: 5px; padding: 10px 15px; font-size: 16px; text-decoration: none; text-align: center; display: inline-block; transition: all 0.3s;">Crie sua conta na Polarium Broker</a>',
+        '<a href="https://trade.polariumbroker.com" target="_blank" style="background-color: #ff4b4b; color: #ffffff; font-weight: bold; border: none; border-radius: 5px; padding: 10px 15px; font-size: 16px; text-decoration: none; text-align: center; display: inline-block; transition: all 0.3s;">Crie sua conta na Polarium Broker</a>',
         unsafe_allow_html=True
     )
 with col2:
