@@ -71,7 +71,7 @@ def formatar_em_cru(valor):
 # Botão de cálculo
 banca_evolucao = []
 grafico_gerado = False
-if st.button("Calcular Agenda"):
+if st.button("Gerar Agenda"):
     if banca_inicial > 0 and meta_desejada > 0 and dias_para_meta > 0:
         porcentagem_diaria = (meta_desejada / banca_inicial) ** (1 / dias_para_meta) - 1
         stop_loss = banca_inicial * 0.20
@@ -85,7 +85,7 @@ if st.button("Calcular Agenda"):
             banca_evolucao.append(f"**Dia {dia}:** {formatar_em_cru(banca_atual)} - Necessário: {formatar_em_cru(necessidade_dia)}")
             bancas.append(banca_atual)
 
-        st.success("Aqui está sua agenda de gerenciamento:")
+        st.success("Sua agenda de gerenciamentofoi gerada!")
         st.write(f"**Porcentagem Diária Necessária:** {porcentagem_diaria * 100:.2f}%")
         st.write(f"**Stop Loss Diário:** {formatar_em_cru(stop_loss)}")
         for linha in banca_evolucao:
