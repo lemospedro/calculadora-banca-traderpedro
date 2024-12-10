@@ -29,23 +29,9 @@ st.markdown("""
             font-family: 'Helvetica', sans-serif;
         }
 
-        /* Estilo personalizado para os botões do Streamlit com bordas arredondadas */
-        .stButton button {
-            border-radius: 12px !important;
-            border: 2px solid transparent !important;
-            padding: 10px 15px;
-            font-size: 16px;
-        }
-
-        /* Gradiente nas bordas dos botões */
-        .stButton button:hover {
-            background-color: transparent !important;
-            border-image: linear-gradient(90deg, #ff4b4b, #ff914d, #ffcc00) 1;
-        }
-
-        .stButton button:active {
-            background-color: transparent !important;
-            border-image: linear-gradient(90deg, #ff4b4b, #ff914d, #ffcc00) 1;
+        /* Estilo dos botões com bordas arredondadas */
+        .css-1emrehy.edgvbvh3 {
+            border-radius: 12px;
         }
     </style>
 """, unsafe_allow_html=True)
