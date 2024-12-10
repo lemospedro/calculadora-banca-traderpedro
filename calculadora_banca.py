@@ -166,7 +166,7 @@ with col2:
 # Botão para abrir o eBook
 st.markdown(
     '<a href="https://drive.google.com/file/d/1H_VNOgYSRNnsGIEj_g2B3xwQxSa-Zu4d/view?usp=sharing" target="_blank" '
-    'style="background-color: #ffffff; color: #0d1216; font-weight: bold; border: none; border-radius: 5px; padding: 10px 15px; '
+    'style="background-color: #14b802; color: #0d1216; font-weight: bold; border: none; border-radius: 5px; padding: 10px 15px; '
     'font-size: 16px; text-decoration: none; text-align: center; display: inline-block; transition: all 0.3s;">Abrir Análise Abundante</a>',
     unsafe_allow_html=True
 )
