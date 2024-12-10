@@ -1,63 +1,44 @@
 import streamlit as st
 import matplotlib.pyplot as plt
+import pandas as pd
 from io import BytesIO
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import letter
+from reportlab.lib import colors
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Image
+from reportlab.pdfbase.ttfonts import TTFont
+from reportlab.pdfbase import pdfmetrics
 
 # CSS global
 st.markdown("""
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+
+        /* Título */
         .stApp h1 {
             font-family: 'Bebas Neue', sans-serif;
             font-size: 48px;
             text-align: center;
             color: #ff4b4b;
             margin-bottom: 50px;
-            animation: fadeIn 2s ease-out;
         }
+
+        /* Fundo da aplicação em preto */
         .stApp {
             background-color: #0d1216;
         }
+
+        /* Labels dos inputs estilizados */
         .stNumberInput label, .stTextInput label {
             font-family: 'Helvetica', !important;
             font-weight: bold;
-            color: #ffffff !important;
-        }
-        * {
-            font-family: 'Helvetica', sans-serif;
+            color: #ffffff !important; /* Cor branca */
         }
 
-        @keyframes fadeIn {
-            0% {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        .stButton>button {
-            transition: all 0.3s ease;
-        }
-        .stButton>button:hover {
-            background-color: #ff4b4b;
-            color: #ffffff;
-            border: 2px solid #ffffff;
-        }
-        .stButton>button#btn-analise-abundante {
-            background-color: #0d1216;
-            color: #ffffff;
-            border: 2px solid #00b140;
-            font-weight: bold;
-        }
-        .stButton>button#btn-analise-abundante:hover {
-            background-color: #00b140;
-            color: #ffffff;
-            border: 2px solid #00b140;
+        /* Aplicando Helvetica em todo o texto */
+        * {
+            font-family: 'Helvetica', sans-serif;
         }
     </style>
 """, unsafe_allow_html=True)
@@ -72,13 +53,13 @@ banca_inicial = st.number_input("**Banca Inicial (R$):**", min_value=0.0, step=1
 meta_desejada = st.number_input("**Meta Total (R$):**", min_value=0.0, step=1.0, format="%.2f", key="meta_desejada")
 dias_para_meta = st.number_input("**Tempo para atingir a meta (dias):**", min_value=1, step=1, key="dias_para_meta")
 
-# Função de formatação
+# Função para formatar os valores
 def formatar_em_cru(valor):
     return f"{valor:,.2f}".replace(',', 'X').replace('.', ',').replace('X', '.')
 
 # Botão de cálculo
 banca_evolucao = []
-grafico_buffer = None
+grafico_gerado = False
 if st.button("Calcular Agenda"):
     if banca_inicial > 0 and meta_desejada > 0 and dias_para_meta > 0:
         porcentagem_diaria = (meta_desejada / banca_inicial) ** (1 / dias_para_meta) - 1
@@ -100,22 +81,21 @@ if st.button("Calcular Agenda"):
             st.write(linha)
 
         # Geração do gráfico
-        fig, ax = plt.subplots()
-        ax.plot(range(dias_para_meta + 1), bancas, marker='o', linestyle='-', color='#ff4b4b')  # Linha avermelhada
-        ax.set_title("Evolução da Banca", color="white", fontsize=14, fontweight="bold")  # Título em branco
-        ax.set_xlabel("Dias", color="white", fontweight="bold")  # Texto eixo X em branco
-        ax.set_ylabel("Banca (R$)", color="white", fontweight="bold")  # Texto eixo Y em branco
-        ax.grid(True, color="white")
-        ax.set_facecolor('#0d1216')  # Fundo escuro
-        ax.tick_params(colors='white')  # Ticks em branco
-        ax.spines['bottom'].set_color('white')  # Eixo inferior em branco
-        ax.spines['left'].set_color('white')  # Eixo esquerdo em branco
-
+        plt.figure(facecolor="#0d1216")
+        plt.plot(range(dias_para_meta + 1), bancas, marker='o', linestyle='-', color='#ff4b4b')  # Linha avermelhada
+        plt.title("Evolução da Banca", color="white", fontsize=14, fontweight="bold")  # Título em branco
+        plt.xlabel("Dias", color="white", fontweight="bold")  # Texto eixo X em branco
+        plt.ylabel("Banca (R$)", color="white", fontweight="bold")  # Texto eixo Y em branco
+        plt.grid(True, color="white")
+        plt.gca().set_facecolor('#0d1216')
+        plt.tick_params(colors='white')  # Ticks em branco
+        plt.gca().spines['bottom'].set_color('white')  # Eixo inferior em branco
+        plt.gca().spines['left'].set_color('white')  # Eixo esquerdo em branco
         grafico_buffer = BytesIO()
-        fig.savefig(grafico_buffer, format="png", dpi=300)  # Corrigido para garantir fundo escuro
+        plt.savefig(grafico_buffer, format="png", transparent=False)  # Remove transparência para fundo escuro
+        st.pyplot(plt)
         grafico_buffer.seek(0)  # Resetar o buffer para leitura posterior
-        st.image(grafico_buffer, caption="Evolução da Banca", use_column_width=True)  # Exibe o gráfico
-
+        grafico_gerado = True
     else:
         st.error("Por favor, insira valores válidos para todos os campos!")
 
@@ -143,7 +123,7 @@ def exportar_pdf():
         elementos.append(Paragraph(linha, style_normal))
 
     # Adicionar o gráfico como imagem
-    if grafico_buffer:
+    if grafico_gerado:
         grafico_buffer.seek(0)
         elementos.append(Spacer(1, 12))
         elementos.append(Image(grafico_buffer, width=500, height=300))
@@ -153,7 +133,34 @@ def exportar_pdf():
     buffer.seek(0)
     return buffer
 
-# Geração do PDF
-if grafico_buffer:
+if grafico_gerado:
     pdf_buffer = exportar_pdf()
     st.download_button("Baixar Agenda em PDF", data=pdf_buffer, file_name="agenda_trader_pedro.pdf", mime="application/pdf")
+
+# Links finais
+col1, col2 = st.columns(2)
+with col1:
+    st.markdown(
+        '<a href="https://trade.polariumbroker.com/register?aff=436446&aff_model=revenue&afftrack=" target="_blank" '
+        'style="background-color: #0d1216; color: #ffffff; font-weight: bold; border: 2px solid #ff4b4b; '
+        'border-radius: 5px; padding: 10px 15px; font-size: 16px; text-decoration: none; text-align: center; '
+        'display: inline-block;">Crie sua conta na Polarium Broker</a>',
+        unsafe_allow_html=True
+    )
+
+with col2:
+    st.markdown(
+        '<a href="https://br.tradingview.com/pricing/?share_your_love=traderpedrobr" target="_blank" '
+        'style="background-color: #0d1216; color: #ffffff; font-weight: bold; border: 2px solid #ff4b4b; '
+        'border-radius: 5px; padding: 10px 15px; font-size: 16px; text-decoration: none; text-align: center; '
+        'display: inline-block;">Crie sua conta no TradingView</a>',
+        unsafe_allow_html=True
+    )
+
+st.markdown(
+    '<a href="https://drive.google.com/file/d/1H_VNOgYSRNnsGIEj_g2B3xwQxSa-Zu4d/view?usp=sharing" target="_blank" '
+    'style="background-color: #0d1216; color: #ffffff; font-weight: bold; border: 2px solid #14b802; '
+    'border-radius: 5px; padding: 10px 15px; font-size: 16px; text-decoration: none; text-align: center; '
+    'display: inline-block;">Abrir Análise Abundante</a>',
+    unsafe_allow_html=True
+)
