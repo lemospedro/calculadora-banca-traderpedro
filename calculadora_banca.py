@@ -118,12 +118,12 @@ else:
 
             /* Mensagens de erro */
             .stError {
-                color: #000000 !important;  /* Cor preta para mensagens de erro no modo claro */
+                color: #ff4b4b !important;  /* Cor avermelhada para mensagens de erro no modo claro */
             }
 
             /* Corrigir texto de erro */
             .stError div {
-                color: #000000 !important;  /* Garantir que o texto do erro também fique visível */
+                color: #ff4b4b !important;  /* Garantir que o texto do erro também fique visível */
             }
 
             /* Aplicando Helvetica em todo o texto */
@@ -245,6 +245,6 @@ with col1:
 
 with col2:
     st.markdown(
-        '<a href="https://br.tradingview.com/pricing/" target="_blank" style="background-color: #ff4b4b; color: #ffffff; font-weight: bold; border: none; border-radius: 5px; padding: 10px 15px; font-size: 16px; text-decoration: none; text-align: center; display: inline-block; transition: all 0.3s;">Acesse o TradingView</a>',
+        '<a href="https://br.tradingview.com/pricing/" target="_blank" style="background-color: #ff4b4b; color: #ffffff; font-weight: bold; border: none; border-radius: 5px; padding: 10px 15px; font-size: 16px; text-decoration: none; text-align: center; display: inline-block; transition: all 0.3s;">Assine TradingView Pro</a>',
         unsafe_allow_html=True
     )
