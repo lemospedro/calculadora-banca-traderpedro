@@ -48,7 +48,7 @@ st.markdown("""
             border-radius: 5px;
             padding: 10px 15px;
             font-size: 16px;
-            text-decoration: none;
+            text-decoration: none; /* Remove sublinhado padrão */
             text-align: center;
             display: inline-block;
             transition: all 0.3s ease-in-out;
@@ -60,6 +60,7 @@ st.markdown("""
             transform: scale(1.05);
             box-shadow: 0 0 10px rgba(255, 75, 75, 0.5);
             color: #ffcccb;
+            text-decoration: none; /* Remove sublinhado no hover */
         }
 
         /* Botão específico do Análise Abundante */
