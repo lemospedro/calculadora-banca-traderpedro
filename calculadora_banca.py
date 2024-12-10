@@ -46,10 +46,12 @@ st.markdown("""
             }
         }
 
-        /* Efeito nos botões com mudança de cor de fundo e borda */
+        /* Efeito de transição nos botões */
         .stButton>button {
             transition: all 0.3s ease;
+            border-radius: 5px;  /* Arredondamento dos botões */
         }
+
         .stButton>button:hover {
             background-color: #ff4b4b;  /* Altera a cor de fundo para vermelho */
             color: #ffffff;  /* Muda a cor do texto para branco */
@@ -134,7 +136,7 @@ if st.button("Calcular Agenda"):
             st.write(linha)
 
         # Geração do gráfico
-        plt.figure(facecolor="#0d1216")
+        plt.figure(figsize=(10, 6), facecolor="#0d1216")  # Configurar o fundo do gráfico
         plt.plot(range(dias_para_meta + 1), bancas, marker='o', linestyle='-', color='#ff4b4b')  # Linha avermelhada
         plt.title("Evolução da Banca", color="white", fontsize=14, fontweight="bold")  # Título em branco
         plt.xlabel("Dias", color="white", fontweight="bold")  # Texto eixo X em branco
@@ -145,7 +147,7 @@ if st.button("Calcular Agenda"):
         plt.gca().spines['bottom'].set_color('white')  # Eixo inferior em branco
         plt.gca().spines['left'].set_color('white')  # Eixo esquerdo em branco
         grafico_buffer = BytesIO()
-        plt.savefig(grafico_buffer, format="png", transparent=True)  # Removendo a transparência para fundo escuro
+        plt.savefig(grafico_buffer, format="png")  # Remover transparência e salvar com fundo escuro
         st.pyplot(plt)
         grafico_buffer.seek(0)  # Resetar o buffer para leitura posterior
         grafico_gerado = True
@@ -202,15 +204,6 @@ with col1:
     )
 
 with col2:
-    st.markdown(
-        '<a href="https://br.tradingview.com/pricing/?share_your_love=traderpedrobr" target="_blank" '
-        'style="background-color: #0d1216; color: #ffffff; font-weight: bold; border: 2px solid #ff4b4b; '
-        'border-radius: 5px; padding: 10px 15px; font-size: 16px; text-decoration: none; text-align: center; '
-        'display: inline-block;" id="btn-tradingview">Acesse TradingView</a>',
-        unsafe_allow_html=True
-    )
-
-with col1:
     st.markdown(
         '<a href="https://drive.google.com/file/d/1H_VNOgYSRNnsGIEj_g2B3xwQxSa-Zu4d/view?usp=sharing" target="_blank" '
         'style="background-color: #0d1216; color: #ffffff; font-weight: bold; border: 2px solid #00b140; '
