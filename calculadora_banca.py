@@ -146,7 +146,7 @@ if st.button("Calcular Agenda"):
         ax.spines['left'].set_color('white')  # Eixo esquerdo em branco
 
         grafico_buffer = BytesIO()
-        fig.savefig(grafico_buffer, format="png", transparent=True)  # Removendo a transparência para fundo escuro
+        fig.savefig(grafico_buffer, format="png", transparent=False)  # Aqui ajustamos para o fundo não ser transparente
         grafico_buffer.seek(0)  # Resetar o buffer para leitura posterior
         st.image(grafico_buffer, caption="Evolução da Banca", use_column_width=True)  # Exibe o gráfico
 
