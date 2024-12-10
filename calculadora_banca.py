@@ -85,7 +85,7 @@ if st.button("Gerar Agenda"):
             banca_evolucao.append(f"**Dia {dia}:** {formatar_em_cru(banca_atual)} - Necessário: {formatar_em_cru(necessidade_dia)}")
             bancas.append(banca_atual)
 
-        st.success("Sua agenda de gerenciamentofoi gerada!")
+        st.success("Sua agenda de gerenciamento foi gerada com sucesso!")
         st.write(f"**Porcentagem Diária Necessária:** {porcentagem_diaria * 100:.2f}%")
         st.write(f"**Stop Loss Diário:** {formatar_em_cru(stop_loss)}")
         for linha in banca_evolucao:
