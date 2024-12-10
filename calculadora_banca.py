@@ -112,7 +112,7 @@ def formatar_em_cru(valor):
 
 # Botão de cálculo
 banca_evolucao = []
-grafico_gerado = False
+grafico_buffer = None
 if st.button("Calcular Agenda"):
     if banca_inicial > 0 and meta_desejada > 0 and dias_para_meta > 0:
         porcentagem_diaria = (meta_desejada / banca_inicial) ** (1 / dias_para_meta) - 1
@@ -146,9 +146,9 @@ if st.button("Calcular Agenda"):
         plt.gca().spines['left'].set_color('white')  # Eixo esquerdo em branco
         grafico_buffer = BytesIO()
         plt.savefig(grafico_buffer, format="png", transparent=True)  # Removendo a transparência para fundo escuro
-        st.pyplot(plt)
         grafico_buffer.seek(0)  # Resetar o buffer para leitura posterior
-        grafico_gerado = True
+        st.image(grafico_buffer, caption="Evolução da Banca", use_column_width=True)  # Exibe o gráfico
+
     else:
         st.error("Por favor, insira valores válidos para todos os campos!")
 
@@ -176,7 +176,7 @@ def exportar_pdf():
         elementos.append(Paragraph(linha, style_normal))
 
     # Adicionar o gráfico como imagem
-    if grafico_gerado:
+    if grafico_buffer:
         grafico_buffer.seek(0)
         elementos.append(Spacer(1, 12))
         elementos.append(Image(grafico_buffer, width=500, height=300))
@@ -186,12 +186,8 @@ def exportar_pdf():
     buffer.seek(0)
     return buffer
 
-if grafico_gerado:
-    # Exibir o gráfico na plataforma
-    grafico_buffer.seek(0)  # Resetar o buffer para leitura posterior
-    st.image(grafico_buffer, caption="Evolução da Banca", use_column_width=True)
-    
-    # Geração do PDF
+# Geração do PDF
+if grafico_buffer:
     pdf_buffer = exportar_pdf()
     st.download_button("Baixar Agenda em PDF", data=pdf_buffer, file_name="agenda_trader_pedro.pdf", mime="application/pdf")
 
