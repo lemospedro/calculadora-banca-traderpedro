@@ -30,7 +30,7 @@ st.markdown("""
         }
 
         /* Estilo dos botões com bordas arredondadas */
-        .button-custom {
+        .css-1emrehy.edgvbvh3 {
             border-radius: 12px;
         }
     </style>
