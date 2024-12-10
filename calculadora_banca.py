@@ -46,13 +46,14 @@ st.markdown("""
             }
         }
 
-        /* Efeito nos botões com aumento e sombra */
+        /* Efeito nos botões com mudança de cor de fundo e borda */
         .stButton>button {
             transition: all 0.3s ease;
         }
         .stButton>button:hover {
-            transform: scale(1.05);  /* Aumenta o botão */
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Adiciona sombra */
+            background-color: #ff4b4b;  /* Altera a cor de fundo para vermelho */
+            color: #ffffff;  /* Muda a cor do texto para branco */
+            border: 2px solid #ffffff; /* Borda branca */
         }
 
         /* Botões personalizados */
@@ -63,9 +64,9 @@ st.markdown("""
             font-weight: bold;
         }
         .stButton>button#btn-analise-abundante:hover {
-            background-color: #0d1216;
-            border: 2px solid #00b140;
-            color: #00b140; /* Muda a cor do texto para verde */
+            background-color: #00b140; /* Altera a cor de fundo para verde */
+            color: #ffffff; /* Muda a cor do texto para branco */
+            border: 2px solid #00b140; /* Borda verde */
         }
 
         .stButton>button#btn-create-polarium {
@@ -75,9 +76,9 @@ st.markdown("""
             font-weight: bold;
         }
         .stButton>button#btn-create-polarium:hover {
-            background-color: #0d1216;
-            border: 2px solid #ff4b4b;
-            color: #ff4b4b; /* Muda a cor do texto para vermelho */
+            background-color: #ff4b4b; /* Altera a cor de fundo para vermelho */
+            color: #ffffff; /* Muda a cor do texto para branco */
+            border: 2px solid #ffffff; /* Borda branca */
         }
 
         .stButton>button#btn-tradingview {
@@ -87,9 +88,9 @@ st.markdown("""
             font-weight: bold;
         }
         .stButton>button#btn-tradingview:hover {
-            background-color: #0d1216;
-            border: 2px solid #ff4b4b;
-            color: #ff4b4b; /* Muda a cor do texto para vermelho */
+            background-color: #ff4b4b; /* Altera a cor de fundo para vermelho */
+            color: #ffffff; /* Muda a cor do texto para branco */
+            border: 2px solid #ffffff; /* Borda branca */
         }
 
     </style>
@@ -209,7 +210,7 @@ with col2:
         unsafe_allow_html=True
     )
 
-with col2:
+with col1:
     st.markdown(
         '<a href="https://drive.google.com/file/d/1H_VNOgYSRNnsGIEj_g2B3xwQxSa-Zu4d/view?usp=sharing" target="_blank" '
         'style="background-color: #0d1216; color: #ffffff; font-weight: bold; border: 2px solid #00b140; '
