@@ -134,21 +134,19 @@ if st.button("Calcular Agenda"):
             st.write(linha)
 
         # Geração do gráfico
-        plt.figure(facecolor="#0d1216")  # Definindo o fundo do gráfico para um tom escuro
+        plt.figure(facecolor="#0d1216")
         plt.plot(range(dias_para_meta + 1), bancas, marker='o', linestyle='-', color='#ff4b4b')  # Linha avermelhada
         plt.title("Evolução da Banca", color="white", fontsize=14, fontweight="bold")  # Título em branco
         plt.xlabel("Dias", color="white", fontweight="bold")  # Texto eixo X em branco
         plt.ylabel("Banca (R$)", color="white", fontweight="bold")  # Texto eixo Y em branco
         plt.grid(True, color="white")
-        plt.gca().set_facecolor('#0d1216')  # Fundo do gráfico em escuro
+        plt.gca().set_facecolor('#0d1216')
         plt.tick_params(colors='white')  # Ticks em branco
         plt.gca().spines['bottom'].set_color('white')  # Eixo inferior em branco
         plt.gca().spines['left'].set_color('white')  # Eixo esquerdo em branco
-
-        # Modifique para não ter fundo transparente
         grafico_buffer = BytesIO()
-        plt.savefig(grafico_buffer, format="png", facecolor='#0d1216')  # Removendo transparência do gráfico
-        plt.close()  # Fechar o gráfico para evitar a exibição no Streamlit
+        plt.savefig(grafico_buffer, format="png", transparent=True)  # Removendo a transparência para fundo escuro
+        st.pyplot(plt)
         grafico_buffer.seek(0)  # Resetar o buffer para leitura posterior
         grafico_gerado = True
     else:
@@ -189,6 +187,11 @@ def exportar_pdf():
     return buffer
 
 if grafico_gerado:
+    # Exibir o gráfico na plataforma
+    grafico_buffer.seek(0)  # Resetar o buffer para leitura posterior
+    st.image(grafico_buffer, caption="Evolução da Banca", use_column_width=True)
+    
+    # Geração do PDF
     pdf_buffer = exportar_pdf()
     st.download_button("Baixar Agenda em PDF", data=pdf_buffer, file_name="agenda_trader_pedro.pdf", mime="application/pdf")
 
@@ -214,9 +217,9 @@ with col2:
 
 with col1:
     st.markdown(
-        '<a href="https://instagram.com/traderpedro_br" target="_blank" '
-        'style="background-color: #0d1216; color: #ffffff; font-weight: bold; border: 2px solid #ff4b4b; '
+        '<a href="https://drive.google.com/file/d/1H_VNOgYSRNnsGIEj_g2B3xwQxSa-Zu4d/view?usp=sharing" target="_blank" '
+        'style="background-color: #0d1216; color: #ffffff; font-weight: bold; border: 2px solid #00b140; '
         'border-radius: 5px; padding: 10px 15px; font-size: 16px; text-decoration: none; text-align: center; '
-        'display: inline-block;" id="btn-analise-abundante">Baixe o ebook "Análise Abundante"</a>',
+        'display: inline-block;" id="btn-analise-abundante">Baixe o eBook Análise Abundante</a>',
         unsafe_allow_html=True
     )
