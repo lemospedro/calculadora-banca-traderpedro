@@ -1,76 +1,161 @@
-import tkinter as tk
-from tkinter import ttk
+import streamlit as st
+import matplotlib.pyplot as plt
+import pandas as pd
+from io import BytesIO
 
-class App:
-    def __init__(self, root):
-        self.root = root
-        self.root.title("Plataforma de Sinais")
-        self.root.geometry("500x300")
-        
-        # Definindo a variável de tema
-        self.is_dark_mode = False
+# CSS Global
+st.markdown("""
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
 
-        # Alterando o fundo e a cor de texto com base no tema
-        self.change_theme()
+        /* Fundo geral da aplicação */
+        .stApp {
+            background-color: #0d1216;
+        }
 
-        # Título da plataforma
-        self.title_label = tk.Label(self.root, text="Plataforma de Sinais", font=("Arial", 24), pady=20)
-        self.title_label.pack()
+        /* Título com animação */
+        @keyframes fadeInPulse {
+            0% { 
+                opacity: 0; 
+                transform: scale(0.95); 
+            }
+            50% { 
+                opacity: 0.5; 
+                transform: scale(1.02); 
+            }
+            100% { 
+                opacity: 1; 
+                transform: scale(1); 
+            }
+        }
 
-        # Descrição
-        self.description_label = tk.Label(self.root, text="Aqui você verá os sinais de compra e venda", font=("Arial", 12))
-        self.description_label.pack()
+        .stApp h1 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 48px;
+            text-align: center;
+            color: #ff4b4b;
+            margin-bottom: 50px;
+            animation: fadeInPulse 2s ease-in-out;
+            text-shadow: 0 0 10px rgba(255, 75, 75, 0.6);
+        }
 
-        # Botão de modo claro/escuro
-        self.toggle_theme_button = tk.Button(self.root, text="Modo Claro", command=self.toggle_theme, font=("Arial", 12))
-        self.toggle_theme_button.pack(pady=10)
+        /* Botões Gerais com bordas coloridas */
+        a {
+            background-color: #1a1f25; 
+            border: 2px solid #ff4b4b; /* Borda vermelha */
+            color: #ffffff !important;
+            font-weight: bold;
+            border-radius: 5px;
+            padding: 10px 15px;
+            font-size: 16px;
+            text-decoration: none; /* Remove sublinhado padrão */
+            text-align: center;
+            display: inline-block;
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0 0 0 transparent;
+            cursor: pointer;
+        }
 
-        # Status de sinal
-        self.signal_label = tk.Label(self.root, text="Buscando Sinal...", font=("Arial", 16), bg=self.bg_color, fg=self.fg_color)
-        self.signal_label.pack(pady=20)
+        a:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 10px rgba(255, 75, 75, 0.5);
+            color: #ffcccb;
+            text-decoration: none; /* Remove sublinhado no hover */
+        }
 
-        # Simulando um sinal de compra ou venda
-        self.toggle_signal_button = tk.Button(self.root, text="Simular Sinal", command=self.toggle_signal, font=("Arial", 12))
-        self.toggle_signal_button.pack(pady=10)
+        /* Botão específico do Análise Abundante */
+        a.analise-abundante {
+            border-color: #00c418; /* Borda verde */
+        }
 
-    def change_theme(self):
-        """Muda o tema para claro ou escuro"""
-        if self.is_dark_mode:
-            self.bg_color = "#333333"
-            self.fg_color = "#FFFFFF"
-        else:
-            self.bg_color = "#FFFFFF"
-            self.fg_color = "#000000"
+        a.analise-abundante:hover {
+            box-shadow: 0 0 10px rgba(0, 196, 24, 0.6); /* Sombra verde */
+        }
 
-        self.root.config(bg=self.bg_color)
-        self.title_label.config(bg=self.bg_color, fg=self.fg_color)
-        self.description_label.config(bg=self.bg_color, fg=self.fg_color)
-        self.toggle_theme_button.config(bg=self.bg_color, fg=self.fg_color)
-        self.signal_label.config(bg=self.bg_color, fg=self.fg_color)
-        self.toggle_signal_button.config(bg=self.bg_color, fg=self.fg_color)
+        /* Botão Calcular Agenda */
+        div.stButton > button {
+            background-color: #1a1f25;
+            border: 2px solid transparent; /* Sem borda por padrão */
+            color: white;
+            font-weight: bold;
+            font-size: 16px;
+            border-radius: 5px;
+            transition: all 0.3s ease-in-out;
+            cursor: pointer;
+        }
 
-    def toggle_theme(self):
-        """Alterna entre modo claro e escuro"""
-        self.is_dark_mode = not self.is_dark_mode
-        self.change_theme()
+        div.stButton > button:hover {
+            border: 2px solid #ff4b4b; /* Borda vermelha apenas no hover */
+            color: #ffcccb;
+            transform: scale(1.05);
+            box-shadow: 0 0 10px rgba(255, 75, 75, 0.5);
+        }
+    </style>
+""", unsafe_allow_html=True)
 
-        # Atualiza o texto do botão
-        if self.is_dark_mode:
-            self.toggle_theme_button.config(text="Modo Claro")
-        else:
-            self.toggle_theme_button.config(text="Modo Escuro")
+# Título principal
+st.markdown("""
+    <h1>Calculadora de Metas - Trader Pedro</h1>
+""", unsafe_allow_html=True)
 
-    def toggle_signal(self):
-        """Simula a troca de sinal"""
-        current_text = self.signal_label.cget("text")
-        if current_text == "Buscando Sinal...":
-            self.signal_label.config(text="Sinal Detectado: Compra", fg="green")
-        else:
-            self.signal_label.config(text="Buscando Sinal...", fg=self.fg_color)
+# Entrada dos dados
+banca_inicial = st.number_input("**Banca Inicial (R$):**", min_value=0.0, step=1.0, format="%.2f", key="banca_inicial")
+meta_desejada = st.number_input("**Meta Total (R$):**", min_value=0.0, step=1.0, format="%.2f", key="meta_desejada")
+dias_para_meta = st.number_input("**Tempo para atingir a meta (dias):**", min_value=1, step=1, key="dias_para_meta")
 
-# Criação da janela principal
-root = tk.Tk()
-app = App(root)
+# Função de cálculo e exibição de resultados
+banca_evolucao = []
+grafico_gerado = False
 
-# Inicia a interface gráfica
-root.mainloop()
+if st.button("Calcular Agenda"):
+    if banca_inicial > 0 and meta_desejada > 0 and dias_para_meta > 0:
+        porcentagem_diaria = (meta_desejada / banca_inicial) ** (1 / dias_para_meta) - 1
+        stop_loss = banca_inicial * 0.20
+
+        banca_atual = banca_inicial
+        bancas = [banca_atual]
+        for dia in range(1, dias_para_meta + 1):
+            ganho_diario = banca_atual * porcentagem_diaria
+            banca_atual += ganho_diario
+            banca_evolucao.append(f"**Dia {dia}:** R$ {banca_atual:.2f}")
+            bancas.append(banca_atual)
+
+        st.success("Aqui está sua agenda de gerenciamento:")
+        st.write(f"**Porcentagem Diária:** {porcentagem_diaria * 100:.2f}%")
+        st.write(f"**Stop Loss Diário:** R$ {stop_loss:.2f}")
+        for linha in banca_evolucao:
+            st.write(linha)
+
+        # Gráfico
+        plt.plot(range(dias_para_meta + 1), bancas, marker='o', linestyle='-', color='#ff4b4b')
+        plt.title("Evolução da Banca", color="white", fontsize=14, fontweight="bold")
+        plt.xlabel("Dias", color="white")
+        plt.ylabel("Banca (R$)", color="white")
+        plt.grid(True)
+        plt.gca().set_facecolor("#0d1216")
+        plt.tick_params(colors="white")
+        grafico_buffer = BytesIO()
+        plt.savefig(grafico_buffer, format="png", transparent=False)
+        st.pyplot(plt)
+        grafico_buffer.seek(0)
+    else:
+        st.error("Por favor, insira valores válidos para todos os campos!")
+
+# Links finais
+col1, col2 = st.columns(2)
+with col1:
+    st.markdown(
+        '<a href="https://trade.polariumbroker.com/register?aff=436446" target="_blank">Crie sua conta na Polarium Broker</a>',
+        unsafe_allow_html=True
+    )
+
+with col2:
+    st.markdown(
+        '<a href="https://br.tradingview.com/pricing/?share_your_love=traderpedrobr" target="_blank">Crie sua conta no TradingView</a>',
+        unsafe_allow_html=True
+    )
+
+st.markdown(
+    '<a class="analise-abundante" href="https://drive.google.com/file/d/1H_VNOgYSRNnsGIEj_g2B3xwQxSa-Zu4d/view?usp=sharing" target="_blank">Abrir Análise Abundante</a>',
+    unsafe_allow_html=True
+)
