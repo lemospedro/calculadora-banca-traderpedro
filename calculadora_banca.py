@@ -65,7 +65,11 @@ st.markdown("""
 
         /* Botão específico do Análise Abundante */
         a.analise-abundante {
-            border-color: #00c418;
+            border-color: #00c418; /* Borda verde */
+        }
+
+        a.analise-abundante:hover {
+            box-shadow: 0 0 10px rgba(0, 196, 24, 0.6); /* Sombra verde */
         }
 
         /* Botão Calcular Agenda */
