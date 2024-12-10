@@ -19,7 +19,7 @@ st.markdown("""
 
         /* Labels dos inputs estilizados */
         .stNumberInput label, .stTextInput label {
-            font-family: 'Helvetica', !important;
+            font-family: 'Helvetica', sans-serif;
             font-weight: bold;
             color: #ffffff !important;
         }
@@ -27,6 +27,33 @@ st.markdown("""
         /* Aplicando Helvetica em todo o texto */
         * {
             font-family: 'Helvetica', sans-serif;
+        }
+
+        /* Botões com gradiente e espaçamento */
+        .botao-personalizado {
+            display: inline-block;
+            width: 100%;
+            text-align: center;
+            margin-bottom: 15px;
+            padding: 10px 15px;
+            font-weight: bold;
+            font-size: 16px;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 5px;
+            border: none;
+        }
+        
+        .botao-polarium {
+            background: linear-gradient(90deg, #ff4b4b, #ff914d);
+        }
+
+        .botao-tradingview {
+            background: linear-gradient(90deg, #ff914d, #ffcc00);
+        }
+
+        .botao-analise {
+            background: linear-gradient(90deg, #14b802, #55d43f);
         }
     </style>
 """, unsafe_allow_html=True)
@@ -96,12 +123,27 @@ if st.button("Calcular Agenda"):
     else:
         st.error("Por favor, insira valores válidos para todos os campos!")
 
-# Função para exportar para PDF
+# Links estilizados com gradiente
+st.markdown("""
+    <a href="https://trade.polariumbroker.com/register?aff=436446&aff_model=revenue&afftrack=" 
+       class="botao-personalizado botao-polarium" target="_blank">
+       Abrir Polarium Broker
+    </a>
+    <a href="https://br.tradingview.com/pricing/?share_your_love=traderpedrobr" 
+       class="botao-personalizado botao-tradingview" target="_blank">
+       Abrir TradingView
+    </a>
+    <a href="https://drive.google.com/file/d/1H_VNOgYSRNnsGIEj_g2B3xwQxSa-Zu4d/view?usp=sharing" 
+       class="botao-personalizado botao-analise" target="_blank">
+       Baixar - Análise Abundante
+    </a>
+""", unsafe_allow_html=True)
+
+# Exportação em PDF
 def exportar_pdf():
     buffer = BytesIO()
     pdf = SimpleDocTemplate(buffer, pagesize=letter)
     elementos = []
-
     styles = getSampleStyleSheet()
     style_normal = styles["Normal"]
     style_bold = styles["Heading2"]
@@ -128,28 +170,3 @@ def exportar_pdf():
 if grafico_gerado:
     pdf_buffer = exportar_pdf()
     st.download_button("Baixar Agenda em PDF", data=pdf_buffer, file_name="agenda_trader_pedro.pdf", mime="application/pdf")
-
-# Links finais
-col1, col2 = st.columns(2)
-with col1:
-    st.markdown(
-        '<a href="https://trade.polariumbroker.com/register?aff=436446&aff_model=revenue&afftrack=" target="_blank" '
-        'style="background-color: #0d1216; color: #ffffff; font-weight: bold; border: 2px solid #ff4b4b; '
-        'border-radius: 5px; padding: 10px 15px; font-size: 16px; text-decoration: none;">Abrir Polarium Broker</a>',
-        unsafe_allow_html=True
-    )
-
-with col2:
-    st.markdown(
-        '<a href="https://br.tradingview.com/pricing/?share_your_love=traderpedrobr" target="_blank" '
-        'style="background-color: #0d1216; color: #ffffff; font-weight: bold; border: 2px solid #ff4b4b; '
-        'border-radius: 5px; padding: 10px 15px; font-size: 16px; text-decoration: none;">Abrir TradingView</a>',
-        unsafe_allow_html=True
-    )
-
-st.markdown(
-    '<a href="https://drive.google.com/file/d/1H_VNOgYSRNnsGIEj_g2B3xwQxSa-Zu4d/view?usp=sharing" target="_blank" '
-    'style="background-color: #0d1216; color: #ffffff; font-weight: bold; border: 2px solid #14b802; '
-    'border-radius: 5px; padding: 10px 15px; font-size: 16px; text-decoration: none;">Baixar - Análise Abundante</a>',
-    unsafe_allow_html=True
-)
